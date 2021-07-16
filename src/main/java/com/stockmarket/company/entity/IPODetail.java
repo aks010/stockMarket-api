@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,12 +28,8 @@ public class IPODetail {
     @JsonIgnore
     private Company company;
 
-    // manytomany stockexchange
-    //    @ManyToMany
-    //    private List<StockExchange> stockExchanges = new ArrayList<>();
-
-    @OneToMany(targetEntity = IPODetailStockExchangeMap.class, mappedBy = "ipoDetail")
-    List<IPODetailStockExchangeMap> ipoDetailStockExchangeMaps;
+    @ManyToMany
+    private List<StockExchange> stockExchanges = new ArrayList<>();
 
     // CONSTRUCTORS
     protected IPODetail() {
@@ -99,11 +96,15 @@ public class IPODetail {
         this.remarks = remarks;
     }
 
-    public List<IPODetailStockExchangeMap> getIpoDetailStockExchangeMaps() {
-        return ipoDetailStockExchangeMaps;
+    public List<StockExchange> getStockExchanges() {
+        return stockExchanges;
     }
 
-    public void setIpoDetailStockExchangeMaps(List<IPODetailStockExchangeMap> ipoDetailStockExchangeMaps) {
-        this.ipoDetailStockExchangeMaps = ipoDetailStockExchangeMaps;
+    public void setStockExchanges(List<StockExchange> stockExchanges) {
+        this.stockExchanges = stockExchanges;
+    }
+
+    public void addStockExchange(StockExchange stockExchange) {
+        this.stockExchanges.add(stockExchange);
     }
 }

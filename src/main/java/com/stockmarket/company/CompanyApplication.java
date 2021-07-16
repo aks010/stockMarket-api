@@ -31,9 +31,6 @@ public class CompanyApplication implements CommandLineRunner {
 	@Autowired
 	IPODetailRepository ipoDetailRepository;
 
-	@Autowired
-	IPODetailStockExchangeMapRepository ipoDetailStockExchangeMapRepository;
-
 	public static void main(String[] args) {
 		SpringApplication.run(CompanyApplication.class, args);
 	}
@@ -77,16 +74,14 @@ public class CompanyApplication implements CommandLineRunner {
 		System.out.println(sector.getCompanies());
 
 		IPODetail ipoDetail = new IPODetail(264724, 34125135L, LocalDateTime.now());
+		ipoDetail.addStockExchange(nse);
+		ipoDetail.addStockExchange(bse);
 		ipoDetail.setCompany(company2);
 		ipoDetailRepository.save(ipoDetail);
+		company2.setIpoDetail(ipoDetail);
+		nse.addIpoDetail(ipoDetail);
+		stockExchangeRepository.save(nse);
 		companyRepository.save(company2);
-
-		IPODetailStockExchangeMap ipose = new IPODetailStockExchangeMap();
-		ipose.setStockExchange(nse);
-		ipose.setIpoDetail(ipoDetail);
-		ipoDetailStockExchangeMapRepository.save(ipose);
-
-
 	}
 
 }

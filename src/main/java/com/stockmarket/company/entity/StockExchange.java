@@ -1,6 +1,7 @@
 package com.stockmarket.company.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,8 +16,9 @@ public class StockExchange {
     @OneToMany(targetEntity = CompanyStockExchangeMap.class, mappedBy = "stockExchange")
     private List<CompanyStockExchangeMap> compStockMap;
 
-    @OneToMany(targetEntity = IPODetailStockExchangeMap.class, mappedBy = "stockExchange")
-    private List<IPODetailStockExchangeMap> ipoDetailStockExchangeMaps;
+    @ManyToMany
+    private List<IPODetail> ipoDetails = new ArrayList<>();
+
 
     // CONSTRUCTORS
     public StockExchange() {super();};
@@ -48,11 +50,15 @@ public class StockExchange {
         this.compStockMap = compStockMap;
     }
 
-    public List<IPODetailStockExchangeMap> getIpoDetailStockExchangeMaps() {
-        return ipoDetailStockExchangeMaps;
+    public List<IPODetail> getIpoDetails() {
+        return ipoDetails;
     }
 
-    public void setIpoDetailStockExchangeMaps(List<IPODetailStockExchangeMap> ipoDetailStockExchangeMaps) {
-        this.ipoDetailStockExchangeMaps = ipoDetailStockExchangeMaps;
+    public void setIpoDetails(List<IPODetail> ipoDetails) {
+        this.ipoDetails = ipoDetails;
+    }
+
+    public void addIpoDetail(IPODetail ipoDetail) {
+        this.ipoDetails.add(ipoDetail);
     }
 }
