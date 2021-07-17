@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class CompanyController {
@@ -21,9 +22,24 @@ public class CompanyController {
     private CompanyService companyService;
 
     // List Existing Companies
+//    @GetMapping("/company/list")
+//    public Page<Company> listCompanies(Pageable pageable) {
+//        return companyService.listCompanies(pageable);
+//    }
+
+
+    // List Existing Companies
     @GetMapping("/company/list")
-    public Page<Company> listCompanies(Pageable pageable) {
-        return companyService.listCompanies(pageable);
+    public ResponseEntity<List<Company>> listCompanies() {
+        try {
+            return new ResponseEntity<List<Company>>(companyService.listCompanies(),null, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("CAUGGGGHTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT@!!");
+            return null;
+        }
+
     }
 
     // Create new Company

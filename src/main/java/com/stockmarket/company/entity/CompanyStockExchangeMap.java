@@ -1,5 +1,7 @@
 package com.stockmarket.company.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,7 @@ public class CompanyStockExchangeMap {
     private String CompanyCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Company company;
 
     @ManyToOne(fetch = FetchType.LAZY)

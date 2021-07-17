@@ -1,5 +1,7 @@
 package com.stockmarket.company.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +16,11 @@ public class StockExchange {
     private String exchangeName;
 
     @OneToMany(targetEntity = CompanyStockExchangeMap.class, mappedBy = "stockExchange")
+    @JsonIgnore
     private List<CompanyStockExchangeMap> compStockMap;
 
     @ManyToMany
+    @JsonIgnore
     private List<IPODetail> ipoDetails = new ArrayList<>();
 
 

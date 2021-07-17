@@ -35,16 +35,17 @@ public class Company {
     private String companyBrief;
 
     @OneToMany(targetEntity = CompanyStockExchangeMap.class, mappedBy = "company")
-    private List<CompanyStockExchangeMap> compStockMap;
+    private List<CompanyStockExchangeMap> compStockMap = new ArrayList<>();
 
     @OneToMany(mappedBy = "company")
     @JsonIgnore
     private List<StockPrice> stockPrices = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Sector sector;
 
     @OneToOne(mappedBy = "company")
+    @JsonIgnore
     private IPODetail ipoDetail;
 
     // CONSTRUCTORS

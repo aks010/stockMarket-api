@@ -11,11 +11,13 @@ import com.stockmarket.company.repository.CompanyRepository;
 import com.stockmarket.company.repository.CompanyStockExchangeMapRepository;
 import com.stockmarket.company.repository.SectorRepository;
 import com.stockmarket.company.repository.StockExchangeRepository;
+import javassist.bytecode.ExceptionsAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -33,15 +35,30 @@ public class CompanyService implements ICompanyService {
     @Autowired
     private CompanyStockExchangeMapRepository companyExchangeMapRepository;
 
+//    @Override
+//    public Page<Company> listCompanies(Pageable pageable) {
+//        return companyRepository.findAll(pageable);
+//    }
+
     @Override
-    public Page<Company> listCompanies(Pageable pageable) {
-        return companyRepository.findAll(pageable);
+    public List<Company> listCompanies() {
+        try{
+            return companyRepository.findAll();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
+
     }
 
     @Override
     public Company newCompany(Company company, String exchangeName, String sectorName) {
         try {
             // Check: Duplicate
+            System.out.println("CAAAAAAAAAAAALLLLLLLLLLLLLLLLLLLLLEEEEEEEEEEEEEEEEEEEEEDDDDDDDDDDDD!!!");
+            System.out.println(company.getCompanyName());
             Optional<Company> queryCompany = companyRepository.findByName(company.getCompanyName());
             if (queryCompany.isPresent()) {
                 throw new BadRequestException("Company "+ company.getCompanyName() + " is already registered");
@@ -69,11 +86,12 @@ public class CompanyService implements ICompanyService {
 
             Company newCompany = new Company(company);
             newCompany.setSector(sector);
-
+            companyRepository.save(newCompany);
+//
             System.out.println("MAPPING SE!!!!!");
             CompanyStockExchangeMap compStockMap = new CompanyStockExchangeMap();
             compStockMap.setCompany(newCompany);
-            compStockMap.setStockExchange(queryStockExchange.get());
+            compStockMap.setStockExchange(stockExchange);
             System.out.println("MAPPED!!!!!");
             companyExchangeMapRepository.save(compStockMap);
             System.out.println("SAVING MEAPPA!!!!!");

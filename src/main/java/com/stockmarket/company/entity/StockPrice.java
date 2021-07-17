@@ -1,6 +1,8 @@
 package com.stockmarket.company.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Time;
 import java.time.LocalDateTime;
@@ -17,6 +19,7 @@ public class StockPrice {
     private LocalDateTime localDateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Company company;
     private Date datee;
     private Time timee;
