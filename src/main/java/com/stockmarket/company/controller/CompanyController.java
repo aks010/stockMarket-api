@@ -22,25 +22,25 @@ public class CompanyController {
     private CompanyService companyService;
 
     // List Existing Companies
-//    @GetMapping("/company/list")
-//    public Page<Company> listCompanies(Pageable pageable) {
-//        return companyService.listCompanies(pageable);
-//    }
-
-
-    // List Existing Companies
     @GetMapping("/company/list")
-    public ResponseEntity<List<Company>> listCompanies() {
-        try {
-            return new ResponseEntity<List<Company>>(companyService.listCompanies(),null, HttpStatus.OK);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("CAUGGGGHTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT@!!");
-            return null;
-        }
-
+    public Page<Company> listCompanies(Pageable pageable) {
+        return companyService.listCompanies(pageable);
     }
+
+//
+//    // List Existing Companies
+//    @GetMapping("/company/list")
+//    public ResponseEntity<List<Company>> listCompanies() {
+//        try {
+//            return new ResponseEntity<List<Company>>(companyService.listCompanies(),null, HttpStatus.OK);
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println("CAUGGGGHTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT@!!");
+//            return null;
+//        }
+//
+//    }
 
     // Create new Company
     @PostMapping("/company/new/{exchangeName}/{sectorName}")

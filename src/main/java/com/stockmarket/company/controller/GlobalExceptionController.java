@@ -62,6 +62,12 @@ public class GlobalExceptionController {
 
     @ExceptionHandler(value = { Exception.class })
     public ResponseEntity<ExceptionJSONInfo> handleException(Exception ex) {
+        ex.printStackTrace();
+        System.out.println("GETTTITJNG ITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT!!!!");
+        System.out.println(ex.getLocalizedMessage());
+        System.out.println("GETTTITJNG SOmetijgnh hjkjdfng !!!!");
+        System.out.println(ex.getMessage());
+
         logger.error("Exception: ",ex.getMessage());
         ExceptionJSONInfo errorResponse = new ExceptionJSONInfo();
         errorResponse.setMessage(ex.getMessage());

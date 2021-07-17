@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "Company")
 @NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company c WHERE c.companyName = :companyName")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Company {
 
     @Id
@@ -41,7 +42,7 @@ public class Company {
     @JsonIgnore
     private List<StockPrice> stockPrices = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Sector sector;
 
     @OneToOne(mappedBy = "company")

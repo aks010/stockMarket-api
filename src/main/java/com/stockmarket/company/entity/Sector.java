@@ -2,6 +2,7 @@ package com.stockmarket.company.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Entity
 @NamedQuery(name = "Sector.findByName", query = "SELECT s FROM Sector s WHERE s.sectorName = :sectorName")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Sector {
     @Id
     @GeneratedValue

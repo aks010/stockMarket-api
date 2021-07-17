@@ -35,23 +35,23 @@ public class CompanyService implements ICompanyService {
     @Autowired
     private CompanyStockExchangeMapRepository companyExchangeMapRepository;
 
-//    @Override
-//    public Page<Company> listCompanies(Pageable pageable) {
-//        return companyRepository.findAll(pageable);
-//    }
-
     @Override
-    public List<Company> listCompanies() {
-        try{
-            return companyRepository.findAll();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return null;
-
-        }
-
+    public Page<Company> listCompanies(Pageable pageable) {
+        return companyRepository.findAll(pageable);
     }
+//
+//    @Override
+//    public List<Company> listCompanies() {
+//        try{
+//            return companyRepository.findAll();
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//
+//        }
+//
+//    }
 
     @Override
     public Company newCompany(Company company, String exchangeName, String sectorName) {
