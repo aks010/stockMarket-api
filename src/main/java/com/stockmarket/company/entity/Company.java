@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Company")
-//@NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company WHERE c.companyName = :companyName")
+@NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company c WHERE c.companyName = :companyName")
 public class Company {
 
     @Id
@@ -51,6 +51,18 @@ public class Company {
     public Company() {
         super();
     };
+
+    public Company (Company company) {
+        this.setCompanyName(company.getCompanyName());
+        this.setIpoDetail(company.getIpoDetail());
+        this.setCompanyBrief(company.getCompanyBrief());
+        this.setCeo(company.getCeo());
+        this.setSector(company.getSector());
+        this.setBoardOfDirectors(company.getBoardOfDirectors());
+        this.setTurnover(company.getTurnover());
+    }
+
+
 
     public Company(String companyName, Double turnover, String ceo, String boardOfDirectors, String companyBrief) {
         super();
@@ -113,6 +125,10 @@ public class Company {
 
     public void setCompStockMap(List<CompanyStockExchangeMap> compStockMap) {
         this.compStockMap = compStockMap;
+    }
+
+    public void addCompStockMap(CompanyStockExchangeMap compStockMapElement) {
+        this.compStockMap.add( compStockMapElement);
     }
 
     public List<StockPrice> getStockPrices() {

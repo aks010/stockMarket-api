@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NamedQuery(name = "Sector.findByName", query = "SELECT s FROM Sector s WHERE s.sectorName = :sectorName")
 public class Sector {
     @Id
     @GeneratedValue

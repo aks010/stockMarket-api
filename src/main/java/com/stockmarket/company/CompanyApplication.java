@@ -10,6 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+// company code in STOCK PRICE is actually the ID of the company
+// company code in COMPANYSTOCKExCAHGEMAP is actually stock code which is stock id
+
+
 @SpringBootApplication
 public class CompanyApplication implements CommandLineRunner {
 
@@ -62,12 +66,12 @@ public class CompanyApplication implements CommandLineRunner {
 		Company company2 = new Company("New 2nsCompany", 732473426D, "metheceo", "hethedirector", "this is the brief");
 		companyRepository.save(company2);
 
-		Sector sector = new Sector("space");
-//
+		Sector sector = new Sector("sector1");
+
 		sector.addCompany(company2);
-//
+
 		sectorRepository.save(sector);
-//
+
 		company2.setSector(sector);
 		companyRepository.save(company2);
 		System.out.println("GOT COMPANIES!!");

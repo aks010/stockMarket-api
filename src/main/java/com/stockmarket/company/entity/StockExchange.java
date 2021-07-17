@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name="StockExchange")
-//@NamedQuery(name = "StockExchange.findByName", query = "SELECT se FROM StockExchange WHERE se.name = :name")
+@NamedQuery(name = "StockExchange.findByName", query = "SELECT se FROM StockExchange se WHERE se.exchangeName = :exchangeName")
 public class StockExchange {
     @Id
     @GeneratedValue
@@ -49,6 +49,11 @@ public class StockExchange {
     public void setCompStockMap(List<CompanyStockExchangeMap> compStockMap) {
         this.compStockMap = compStockMap;
     }
+
+    public void addCompStockMap(CompanyStockExchangeMap compStockMapElement) {
+        this.compStockMap.add( compStockMapElement);
+    }
+
 
     public List<IPODetail> getIpoDetails() {
         return ipoDetails;
