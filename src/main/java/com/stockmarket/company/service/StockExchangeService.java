@@ -1,5 +1,6 @@
 package com.stockmarket.company.service;
 
+import com.stockmarket.company.entity.Company;
 import com.stockmarket.company.entity.StockExchange;
 import com.stockmarket.company.exceptions.BadRequestException;
 import com.stockmarket.company.exceptions.InternalServerError;
@@ -10,7 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StockExchangeService implements IStockExchangeService {
@@ -38,8 +41,35 @@ public class StockExchangeService implements IStockExchangeService {
             System.out.println(e.getMessage());
             throw new InternalServerError("Something went wrong!");
         }
+    };
+
+    public List<Company> getCompanyList(String exchangeName) {
+        try {
+
+            Optional<StockExchange> queryObject = stockExchangeRepository.findByName(exchangeName);
+            if (queryObject.isEmpty()) {
+                throw new RecordNotFoundException("StockExchange "+exchangeName+ " does not exist!");
+            }
+            StockExchange stockExchange = queryObject.get();
+
+            List<Company> companies = stockExchange.getCompStockMap().stream()
+                    .map(compStockMap -> {
+                        return compStockMap.getCompany();
+                    }).collect(Collectors.toList());
+
+            return companies;
+        }
+        catch(RecordNotFoundException e) {
+            throw e;
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new InternalServerError("Something went wrong!");
+        }
 
     };
+
+
     public StockExchange getStockExchange(String exchangeName) {
         try {
 

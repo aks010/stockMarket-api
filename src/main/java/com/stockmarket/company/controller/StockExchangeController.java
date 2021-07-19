@@ -1,5 +1,6 @@
 package com.stockmarket.company.controller;
 
+import com.stockmarket.company.entity.Company;
 import com.stockmarket.company.entity.StockExchange;
 import com.stockmarket.company.exceptions.BadRequestException;
 import com.stockmarket.company.service.StockExchangeService;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class StockExchangeController {
@@ -25,6 +27,11 @@ public class StockExchangeController {
     @GetMapping("/stockExchange/list")
     public Page<StockExchange> listStockExchanges(Pageable pageable) {
         return stockExchangeService.listStockExchanges(pageable);
+    }
+
+    @GetMapping("/stockExchange/list/{exchangeName}")
+    public List<Company> getCompanyList(@PathVariable String exchangeName) {
+        return stockExchangeService.getCompanyList(exchangeName);
     }
 
     // ADMIN: Create new Stock Exchange
@@ -54,7 +61,7 @@ public class StockExchangeController {
         return new ResponseEntity<StockExchange>(updatedStockExchange, null, HttpStatus.OK);
     }
 
-    // ADMIN: Delete Stock Exchange - {stockId}
+    // ADMIN: Delete Stock Exchange - {exchangeName}
     @DeleteMapping("/stockExchange/{exchangeName}")
     public ResponseEntity<HttpStatus> removeStockExchange(@PathVariable String exchangeName) {
         stockExchangeService.removeStockExchange(exchangeName);

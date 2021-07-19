@@ -32,7 +32,7 @@ public class IPODetail {
     private List<StockExchange> stockExchanges = new ArrayList<>();
 
     // CONSTRUCTORS
-    protected IPODetail() {
+    public IPODetail() {
     }
 
     public IPODetail(double pricePerShare, Long totalNumberOfShares, LocalDateTime openDateTime) {
