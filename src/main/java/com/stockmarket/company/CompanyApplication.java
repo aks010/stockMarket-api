@@ -47,14 +47,15 @@ public class CompanyApplication implements CommandLineRunner {
 		companyRepository.save(company);
 		System.out.println("Created Company!!");
 
-		StockExchange nse = new StockExchange("NSE");
-		StockExchange bse = new StockExchange("BSE");
+		StockExchange nse = new StockExchange("nse");
+		StockExchange bse = new StockExchange("bse");
 		stockExchangeRepository.save(nse);
 		stockExchangeRepository.save(bse);
 
 		CompanyStockExchangeMap cse = new CompanyStockExchangeMap();
 		cse.setCompany(company);
 		cse.setStockExchange(nse);
+		cse.setCompanyCode("234");
 		companyStockExchangeMapRepository.save(cse);
 
 		StockPrice stockPrice = new StockPrice("nse", "234", new Date(), 5005);

@@ -6,13 +6,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "CompanyStockExchangeMap")
+@NamedQuery(name = "CompanyStockExchangeMap.findByName", query = "SELECT c FROM CompanyStockExchangeMap c WHERE c.companyCode = :companyCode")
 public class CompanyStockExchangeMap {
     @Id
     @GeneratedValue
     private long id;
 
     // DOUBT !!
-    private String CompanyCode;
+    private String companyCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -30,11 +31,11 @@ public class CompanyStockExchangeMap {
     // GETTERS AND SETTERS
 
     public String getCompanyCode() {
-        return CompanyCode;
+        return companyCode;
     }
 
     public void setCompanyCode(String companyCode) {
-        CompanyCode = companyCode;
+        this.companyCode = companyCode;
     }
 
     public Company getCompany() {

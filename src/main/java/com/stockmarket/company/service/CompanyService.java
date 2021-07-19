@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -36,25 +37,12 @@ public class CompanyService implements ICompanyService {
     private CompanyStockExchangeMapRepository companyExchangeMapRepository;
 
     @Override
-    public Page<Company> listCompanies(Pageable pageable) {
-        return companyRepository.findAll(pageable);
+    public List<Company> listCompanies() {
+        return companyRepository.findAll();
     }
-//
-//    @Override
-//    public List<Company> listCompanies() {
-//        try{
-//            return companyRepository.findAll();
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//
-//        }
-//
-//    }
 
     @Override
-    public Company newCompany(Company company, String exchangeName, String sectorName) {
+    public Company newCompanyWithSE(Company company, String exchangeName, String sectorName) {
         try {
             // Check: Duplicate
             System.out.println("CAAAAAAAAAAAALLLLLLLLLLLLLLLLLLLLLEEEEEEEEEEEEEEEEEEEEEDDDDDDDDDDDD!!!");
@@ -121,6 +109,110 @@ public class CompanyService implements ICompanyService {
     }
 
     @Override
+    public Company newCompany(Company company, String sectorName) {
+        try {
+            // Check: Duplicate
+            System.out.println("CAAAAAAAAAAAALLLLLLLLLLLLLLLLLLLLLEEEEEEEEEEEEEEEEEEEEEDDDDDDDDDDDD!!!");
+            System.out.println(company.getCompanyName());
+            Optional<Company> queryCompany = companyRepository.findByName(company.getCompanyName());
+            if (queryCompany.isPresent()) {
+                throw new BadRequestException("Company "+ company.getCompanyName() + " is already registered");
+            }
+
+            // Check: Sector Exists
+            Optional<Sector> querySector = sectorRepository.findByName(sectorName);
+            if(querySector.isEmpty()) {
+                System.out.println("NOT FOUND!!!!!");
+                throw new RecordNotFoundException("Sector "+sectorName+" does not exist!");
+            }
+            System.out.println("SECTOR!!!!!");
+
+            Sector sector = querySector.get();
+
+            Company newCompany = new Company(company);
+            newCompany.setSector(sector);
+            companyRepository.save(newCompany);
+            sectorRepository.save(sector);
+            System.out.println("RELATIONS MAINTAINED!!!!!");
+            return newCompany;
+        }
+        catch (BadRequestException e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+        catch (RecordNotFoundException e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+        catch (Exception e) {
+            System.out.println("EROOROROROROROROROO!!!!!");
+            System.out.println(e.getMessage());
+            throw new InternalServerError("Something went wrong!!");
+        }
+
+    }
+
+    @Override
+    public CompanyStockExchangeMap mapCompanyExchange(String companyName, String exchangeName) {
+        try {
+            Optional<Company> queryCompany = companyRepository.findByName(companyName);
+            if (queryCompany.isEmpty()) {
+                throw new BadRequestException("Company "+ companyName + " does not exist !!");
+            }
+            Optional<StockExchange> queryExchange = stockExchangeRepository.findByName(exchangeName);
+            if(queryExchange.isEmpty()) {
+                System.out.println("NOT FOUND!!!!!");
+                throw new BadRequestException("SE "+exchangeName+" does not exist!");
+            }
+
+            Company company = queryCompany.get();
+            StockExchange stockExchange = queryExchange.get();
+
+            Optional<CompanyStockExchangeMap> queryCmSeMap = company.getCompStockMap().stream()
+                    .filter( el -> exchangeName.equals(el.getStockExchange().getExchangeName()))
+                    .findAny();
+            if(queryCmSeMap.isPresent()) {
+                System.out.println("ALREADY MAPPED");
+                throw new BadRequestException("Company "+ companyName + " SE " + exchangeName +" are already mapped!");
+            }
+
+            String uniqueID = UUID.randomUUID().toString();
+
+            CompanyStockExchangeMap newCompSeMap = new CompanyStockExchangeMap();
+            newCompSeMap.setCompanyCode(uniqueID);
+            newCompSeMap.setCompany(company);
+            newCompSeMap.setStockExchange(stockExchange);
+            companyExchangeMapRepository.save(newCompSeMap);
+
+            company.addCompStockMap(newCompSeMap);
+            stockExchange.addCompStockMap(newCompSeMap);
+
+            companyRepository.save(company);
+            stockExchangeRepository.save(stockExchange);
+
+            return newCompSeMap;
+        }
+        catch (BadRequestException e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+        catch (RecordNotFoundException e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+        catch (Exception e) {
+            System.out.println("EROOROROROROROROROO!!!!!");
+            System.out.println(e.getMessage());
+            throw new InternalServerError("Something went wrong!!");
+        }
+
+    }
+
+
+
+
+
+    @Override
     public Company getCompany(Long companyId) {
         try {
             Optional<Company> queryCompany = companyRepository.findById(companyId);
@@ -139,15 +231,28 @@ public class CompanyService implements ICompanyService {
     }
 
     @Override
-    public Company updateCompany(Long companyId, Company userUpdate) {
+    public boolean isCompanyNameAvailable(String companyName) {
         try {
-            Optional<Company> queryCompany = companyRepository.findById(companyId);
+            Optional<Company> queryCompany = companyRepository.findByName(companyName);
+            if (queryCompany.isEmpty()) {
+                return true;
+            }
+            return false;
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new InternalServerError("Something went wrong!!");
+        }
+
+    }
+
+    @Override
+    public Company getCompanyByName(String companyName) {
+        try {
+            Optional<Company> queryCompany = companyRepository.findByName(companyName);
             if (queryCompany.isEmpty()) {
                 throw new RecordNotFoundException();
             }
-            Company company = queryCompany.get();
-
-            companyRepository.save(company);
             return queryCompany.get();
         }
         catch (RecordNotFoundException e) {
@@ -158,6 +263,55 @@ public class CompanyService implements ICompanyService {
             throw new InternalServerError("Something went wrong!!");
         }
     }
+
+    @Override
+    public Company updateCompany(Long companyId, Company companyUpdate) {
+        try {
+            Optional<Company> queryCompany = companyRepository.findById(companyId);
+            if (queryCompany.isEmpty()) {
+                throw new RecordNotFoundException();
+            }
+            Company company = queryCompany.get();
+
+            String companyUpdateName = companyUpdate.getCompanyName();
+            if(company.getCompanyName()!=companyUpdateName) {
+                Optional<Company> queryCompanyByName = companyRepository.findByName(companyUpdateName);
+                if(queryCompanyByName.isPresent()) {
+                    throw new BadRequestException("Company Name "+companyUpdateName+ " is not available!");
+                }
+            }
+            // Todo : Doubt : Do we have to cascade delete all companies if a sector is deleted
+            // todo: or keep a value of null for company in sector field
+            // Check: Sector Exists
+            String sectorName = companyUpdate.getSector().getSectorName();
+            Optional<Sector> querySector = sectorRepository.findByName(sectorName);
+            if(querySector.isEmpty()) {
+                System.out.println("NOT FOUND!!!!!");
+                throw new RecordNotFoundException("Sector "+sectorName+" does not exist!");
+            }
+
+            company.setCompanyBrief(companyUpdate.getCompanyBrief());
+            company.setCompanyName(companyUpdate.getCompanyName());
+            company.setTurnover(companyUpdate.getTurnover());
+            company.setSector(companyUpdate.getSector());
+            company.setBoardOfDirectors(companyUpdate.getBoardOfDirectors());
+            company.setCeo(companyUpdate.getCeo());
+
+            companyRepository.save(company);
+            return queryCompany.get();
+        }
+        catch (BadRequestException e) {
+            throw e;
+        }
+        catch (RecordNotFoundException e) {
+            throw e;
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new InternalServerError("Something went wrong!!");
+        }
+    }
+
 
 
 
@@ -178,4 +332,6 @@ public class CompanyService implements ICompanyService {
             throw new InternalServerError("Something went wrong!!");
         }
     }
+
+
 }

@@ -16,7 +16,7 @@ public class StockPrice {
     private long id;
     private String exchangeName;
     private String companyCode;
-    private LocalDateTime localDateTime;
+//    private LocalDateTime localDateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -61,14 +61,6 @@ public class StockPrice {
 
     public void setCompanyCode(String companyCode) {
         this.companyCode = companyCode;
-    }
-
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
-    }
-
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
     }
 
     public Company getCompany() {

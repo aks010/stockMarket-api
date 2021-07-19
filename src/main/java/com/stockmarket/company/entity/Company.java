@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "Company")
 @NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company c WHERE c.companyName = :companyName")
+//@NamedQuery(name = "Company.findBySector", query = "SELECT c FROM Company c JOIN c.sector s WHERE  s.id = :sectorId")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Company {
 
@@ -35,14 +36,17 @@ public class Company {
     @Type(type = "text")
     private String companyBrief;
 
-    @OneToMany(targetEntity = CompanyStockExchangeMap.class, mappedBy = "company")
+    @OneToMany(targetEntity = CompanyStockExchangeMap.class, mappedBy = "company", cascade=CascadeType.ALL)
     private List<CompanyStockExchangeMap> compStockMap = new ArrayList<>();
 
     @OneToMany(mappedBy = "company")
     @JsonIgnore
     private List<StockPrice> stockPrices = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    // TODO : DOUBT: When a sector is removed the corresponding company rows also gets removed
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="sector_id")
     private Sector sector;
 
     @OneToOne(mappedBy = "company")
@@ -63,8 +67,6 @@ public class Company {
         this.setBoardOfDirectors(company.getBoardOfDirectors());
         this.setTurnover(company.getTurnover());
     }
-
-
 
     public Company(String companyName, Double turnover, String ceo, String boardOfDirectors, String companyBrief) {
         super();
