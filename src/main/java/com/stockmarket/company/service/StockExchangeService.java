@@ -20,10 +20,12 @@ public class StockExchangeService implements IStockExchangeService {
     @Autowired
     private StockExchangeRepository stockExchangeRepository;
 
-    public Page<StockExchange> listStockExchanges(Pageable pageable) {
-        return stockExchangeRepository.findAll(pageable);
+    @Override
+    public List<StockExchange> listStockExchanges() {
+        return stockExchangeRepository.findAll();
     };
 
+    @Override
     public StockExchange newStockExchange(StockExchange stockExchange) {
         try {
             Optional<StockExchange> queryObject = stockExchangeRepository.findByName(stockExchange.getExchangeName());
@@ -43,6 +45,7 @@ public class StockExchangeService implements IStockExchangeService {
         }
     };
 
+    @Override
     public List<Company> getCompanyList(String exchangeName) {
         try {
 
@@ -70,6 +73,7 @@ public class StockExchangeService implements IStockExchangeService {
     };
 
 
+    @Override
     public StockExchange getStockExchange(String exchangeName) {
         try {
 
@@ -87,15 +91,23 @@ public class StockExchangeService implements IStockExchangeService {
             System.out.println(e.getMessage());
             throw new InternalServerError("Something went wrong!");
         }
-
     };
-    public StockExchange updateStockExchange(StockExchange stockExchange) {
+
+    @Override
+    public StockExchange updateStockExchange(String exchangeName, StockExchange stockExchange) {
         try {
             Optional<StockExchange> queryObject = stockExchangeRepository.findByName(stockExchange.getExchangeName());
             if (queryObject.isEmpty()) {
                 throw new BadRequestException("StockExchange does not exist!");
             }
 
+            String newName = stockExchange.getExchangeName();
+            if(!newName.equals(exchangeName)) {
+                Optional<StockExchange> queryExchange = stockExchangeRepository.findByName(newName);
+                if (queryExchange.isPresent()) {
+                    throw new BadRequestException("StockExchange Name "+newName + "is not available!!" );
+                }
+            }
             StockExchange queriedStockExchange = queryObject.get();
             queriedStockExchange.setExchangeName(stockExchange.getExchangeName());
             stockExchangeRepository.save(queriedStockExchange);
@@ -110,6 +122,8 @@ public class StockExchangeService implements IStockExchangeService {
             throw new InternalServerError();
         }
     };
+
+    @Override
     public void removeStockExchange(String exchangeName) {
         try {
             Optional<StockExchange> queryObject = stockExchangeRepository.findByName(exchangeName);

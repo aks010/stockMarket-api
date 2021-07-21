@@ -8,10 +8,10 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface IStockExchangeService {
-    public Page<StockExchange> listStockExchanges(Pageable pageable);
+    public List<StockExchange> listStockExchanges();
     public StockExchange newStockExchange(StockExchange stockExchange);
     public StockExchange getStockExchange(String exchangeName);
-    public StockExchange updateStockExchange(StockExchange stockExchange);
+    public StockExchange updateStockExchange(String exchangeName, StockExchange stockExchange);
     public void removeStockExchange(String exchangeName);
     public List<Company> getCompanyList(String exchangeName);
 

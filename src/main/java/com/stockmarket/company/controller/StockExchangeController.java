@@ -25,8 +25,8 @@ public class StockExchangeController {
 
     // ADMIN: List Existing Stock Exchanges
     @GetMapping("/stockExchange/list")
-    public Page<StockExchange> listStockExchanges(Pageable pageable) {
-        return stockExchangeService.listStockExchanges(pageable);
+    public List<StockExchange> listStockExchanges() {
+        return stockExchangeService.listStockExchanges();
     }
 
     @GetMapping("/stockExchange/list/{exchangeName}")
@@ -55,9 +55,9 @@ public class StockExchangeController {
     }
 
     // ADMIN: Update Stock Exchange
-    @PutMapping("/stockExchange/update/")
-    public ResponseEntity<StockExchange> updateStockExchange(@Valid @RequestBody StockExchange stockExchange, BindingResult bindingResult) {
-        StockExchange updatedStockExchange = stockExchangeService.updateStockExchange(stockExchange);
+    @PutMapping("/stockExchange/update/{exchangeName}")
+    public ResponseEntity<StockExchange> updateStockExchange(@PathVariable String exchangeName, @Valid @RequestBody StockExchange stockExchange, BindingResult bindingResult) {
+        StockExchange updatedStockExchange = stockExchangeService.updateStockExchange(exchangeName, stockExchange);
         return new ResponseEntity<StockExchange>(updatedStockExchange, null, HttpStatus.OK);
     }
 

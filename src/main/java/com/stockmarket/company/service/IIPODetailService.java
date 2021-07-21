@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IIPODetailService {
     public List<IPODetail> listIPODetails();
-    public IPODetail newIPODetail(IPODetail ipoDetail);
+    public IPODetail newIPODetail(String companyName, IPODetail ipoDetail);
     public IPODetail getIPODetail(String exchangeName);
     public IPODetail updateIPODetail(String companyName, IPODetail ipoDetail);
     public void removeIPODetail(String exchangeName);

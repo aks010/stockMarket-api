@@ -9,6 +9,7 @@ import com.stockmarket.company.repository.CompanyRepository;
 import com.stockmarket.company.repository.SectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class SectorService implements ISectorService {
 
     @Override
     public List<Sector> listSectors() {
-        return sectorRepository.findAll();
+        return sectorRepository.findAll(Sort.by(Sort.Direction.ASC, "sectorName"));
     }
 
     @Override

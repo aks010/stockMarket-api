@@ -26,11 +26,11 @@ public class IPODetailController {
     }
 
     @PostMapping("/ipo/new/{companyName}")
-    public ResponseEntity<IPODetail> newIPODetail(@Valid @RequestBody IPODetail ipoDetail, BindingResult bindingResult) {
+    public ResponseEntity<IPODetail> newIPODetail(@PathVariable String companyName, @Valid @RequestBody IPODetail ipoDetail, BindingResult bindingResult) {
             if(bindingResult.hasErrors()) {
                 throw new BadRequestException("Please submit with valid entries!");
             }
-            IPODetail newIPODetail = ipoDetailService.newIPODetail(ipoDetail);
+            IPODetail newIPODetail = ipoDetailService.newIPODetail(companyName, ipoDetail);
             return new ResponseEntity<IPODetail>(newIPODetail, null, HttpStatus.CREATED);
     }
 

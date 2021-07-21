@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+//@CrossOrigin(origins = "http://localhost:3000")
 public class CompanyController {
 
     @Autowired
@@ -73,9 +74,9 @@ public class CompanyController {
     }
 
     // Update Company - {companyId}
-    @PutMapping("/company/update/{companyId}")
-    public ResponseEntity<Company> updateCompany(@PathVariable Long companyId, @Valid @RequestBody Company company, BindingResult bindingResult) {
-        Company updatedCompany = companyService.updateCompany(companyId, company);
+    @PutMapping("/company/update/{companyName}")
+    public ResponseEntity<Company> updateCompany(@PathVariable String companyName, @Valid @RequestBody Company company, BindingResult bindingResult) {
+        Company updatedCompany = companyService.updateCompany(companyName, company);
         return new ResponseEntity<Company>(updatedCompany, null, HttpStatus.OK);
     }
 

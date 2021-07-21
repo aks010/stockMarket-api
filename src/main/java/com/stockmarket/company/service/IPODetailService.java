@@ -21,15 +21,14 @@ public class IPODetailService implements IIPODetailService {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Override
     public List<IPODetail> listIPODetails() {
         return ipoDetailRepository.findAll();
     };
 
-    public IPODetail newIPODetail(IPODetail ipoDetail) {
+    @Override
+    public IPODetail newIPODetail(String companyName, IPODetail ipoDetail) {
         try {
-            String companyName = ipoDetail.getCompany().getCompanyName();
-            if(companyName == null) throw new BadRequestException("company name not provided!");
-
             Optional<Company> queryObject = companyRepository.findByName(companyName);
             if (queryObject.isEmpty()) {
                 throw new BadRequestException("Company "+ companyName + " does not exist!!");
@@ -60,6 +59,7 @@ public class IPODetailService implements IIPODetailService {
         }
 
     };
+    @Override
     public IPODetail getIPODetail(String companyName) {
         try {
             Optional<Company> queryObject = companyRepository.findByName(companyName);
@@ -83,6 +83,7 @@ public class IPODetailService implements IIPODetailService {
 
     };
     // todo fix in se exchangeName
+    @Override
     public IPODetail updateIPODetail(String companyName, IPODetail updateIpoDetail) {
         try {
             Optional<Company> queryObject = companyRepository.findByName(companyName);
@@ -114,6 +115,7 @@ public class IPODetailService implements IIPODetailService {
         }
     };
 
+    @Override
     public void removeIPODetail(String companyName) {
         try {
             Optional<Company> queryObject = companyRepository.findByName(companyName);

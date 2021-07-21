@@ -265,16 +265,21 @@ public class CompanyService implements ICompanyService {
     }
 
     @Override
-    public Company updateCompany(Long companyId, Company companyUpdate) {
+    public Company updateCompany(String companyName, Company companyUpdate) {
         try {
-            Optional<Company> queryCompany = companyRepository.findById(companyId);
+            Optional<Company> queryCompany = companyRepository.findByName(companyName);
             if (queryCompany.isEmpty()) {
                 throw new RecordNotFoundException();
             }
             Company company = queryCompany.get();
 
             String companyUpdateName = companyUpdate.getCompanyName();
-            if(company.getCompanyName()!=companyUpdateName) {
+            String companyNameInDB = company.getCompanyName();
+            if(!companyNameInDB.equals(companyUpdateName)) {
+                System.out.println("LOL");
+                System.out.println(company.getCompanyName());
+                System.out.println(companyUpdateName);
+
                 Optional<Company> queryCompanyByName = companyRepository.findByName(companyUpdateName);
                 if(queryCompanyByName.isPresent()) {
                     throw new BadRequestException("Company Name "+companyUpdateName+ " is not available!");
@@ -293,7 +298,7 @@ public class CompanyService implements ICompanyService {
             company.setCompanyBrief(companyUpdate.getCompanyBrief());
             company.setCompanyName(companyUpdate.getCompanyName());
             company.setTurnover(companyUpdate.getTurnover());
-            company.setSector(companyUpdate.getSector());
+            company.setSector(querySector.get());
             company.setBoardOfDirectors(companyUpdate.getBoardOfDirectors());
             company.setCeo(companyUpdate.getCeo());
 
