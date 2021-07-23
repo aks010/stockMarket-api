@@ -153,7 +153,7 @@ public class CompanyService implements ICompanyService {
     }
 
     @Override
-    public CompanyStockExchangeMap mapCompanyExchange(String companyName, String exchangeName) {
+    public CompanyStockExchangeMap mapCompanyExchange(String companyName, String exchangeName, CompanyStockExchangeMap compSeMap) {
         try {
             Optional<Company> queryCompany = companyRepository.findByName(companyName);
             if (queryCompany.isEmpty()) {
@@ -163,6 +163,12 @@ public class CompanyService implements ICompanyService {
             if(queryExchange.isEmpty()) {
                 System.out.println("NOT FOUND!!!!!");
                 throw new BadRequestException("SE "+exchangeName+" does not exist!");
+            }
+
+            Optional<CompanyStockExchangeMap>  queryMap = companyExchangeMapRepository.findByCompanyCode(compSeMap.getCompanyCode());
+            if(queryMap.isPresent()) {
+                System.out.println("NOT FOUND!!!!!");
+                throw new BadRequestException("Company Code is already in use!");
             }
 
             Company company = queryCompany.get();
@@ -176,11 +182,15 @@ public class CompanyService implements ICompanyService {
                 throw new BadRequestException("Company "+ companyName + " SE " + exchangeName +" are already mapped!");
             }
 
-            String uniqueID = UUID.randomUUID().toString();
+
+            // AUTO RANDOM UUID
+//            String uniqueID = UUID.randomUUID().toString();
 
             CompanyStockExchangeMap newCompSeMap = new CompanyStockExchangeMap();
-            newCompSeMap.setCompanyCode(uniqueID);
+//            newCompSeMap.setCompanyCode(uniqueID);
+            newCompSeMap.setCompanyCode(compSeMap.getCompanyCode());
             newCompSeMap.setCompany(company);
+
             newCompSeMap.setStockExchange(stockExchange);
             companyExchangeMapRepository.save(newCompSeMap);
 

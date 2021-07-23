@@ -1,6 +1,7 @@
 package com.stockmarket.company.controller;
 
 import com.stockmarket.company.entity.Company;
+import com.stockmarket.company.entity.CompareConfig;
 import com.stockmarket.company.entity.StockPrice;
 import com.stockmarket.company.exceptions.BadRequestException;
 import com.stockmarket.company.service.StockPriceService;
@@ -23,6 +24,12 @@ public class StockPriceController {
     public List<StockPrice> listStockPrices() {
         return stockPriceService.listStockPrices();
     }
+
+    @GetMapping("/stockPrices/compare/company")
+    public List<List<Object>> compareCompanies(@RequestBody CompareConfig compare) {
+        return stockPriceService.compareCompanies(compare);
+    }
+
 
     @GetMapping("/stockPrices/companies/{stockPriceName}")
     public List<Company> listStockPriceCompanies(@PathVariable String stockPriceName) {
@@ -71,4 +78,18 @@ public class StockPriceController {
         stockPriceService.removeStockPrice(stockPriceId);
         return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
+
+
+
+//    // COMPARE
+//    @PostMapping("/stockPrices/compare/company")
+//    public ResponseEntity<StockPrice> compareCompany(@Valid @RequestBody CompanyCompareList, BindingResult bindingResult) {
+//        if(bindingResult.hasErrors()) {
+//            throw new BadRequestException("Please submit with valid entries!");
+//        }
+//        System.out.println(bindingResult);
+//        StockPrice newStockPrice = stockPriceService.compareCompany(CompanyCompareList);
+//        return new ResponseEntity<StockPrice>(newStockPrice, null, HttpStatus.CREATED);
+//        return null;
+//    }
 }

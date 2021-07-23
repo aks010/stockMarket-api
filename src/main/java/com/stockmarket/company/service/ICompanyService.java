@@ -14,7 +14,7 @@ public interface ICompanyService {
     public boolean isCompanyNameAvailable(String companyName);
     public Company getCompany(Long companyId);
     public Company getCompanyByName(String companyName);
-    public CompanyStockExchangeMap mapCompanyExchange(String companyName, String exchangeName);
+    public CompanyStockExchangeMap mapCompanyExchange(String companyName, String exchangeName, CompanyStockExchangeMap compSeMap);
     public Company updateCompany(String companyName, Company company);
     public void removeCompany(Long stockId);
 

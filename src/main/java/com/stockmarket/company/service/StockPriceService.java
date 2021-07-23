@@ -11,6 +11,7 @@ import com.stockmarket.company.repository.StockPriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +32,37 @@ public class StockPriceService implements IStockPriceService {
 
     @Override
     public List<StockPrice> listStockPrices() {
-        return stockPriceRepository.findAll();
+      return stockPriceRepository.findAll();
+    }
+
+    @Override
+    public List<List<Object>> compareCompanies(CompareConfig compare) {
+        System.out.println(compare);
+        System.out.println(compare);
+
+        try {
+
+            LocalDate from = compare.from;
+            LocalDate to = compare.to;
+            System.out.println(from);
+            System.out.println(to);
+            List<List<Object>> dataset = new ArrayList<>();
+////
+            compare.companyList.stream().forEach(o -> {
+                System.out.println(o);
+                Optional<Company> queryCompany = companyRepository.findByName(o);
+                if (queryCompany.isEmpty()) {
+                    throw new BadRequestException("Company "+ o + " does not exist!!");
+                }
+                dataset.add(stockPriceRepository.findByDatee(compare.from, compare.to, o));
+            });
+            return dataset;
+        }
+        catch(BadRequestException e) {throw e;}
+        catch(Exception e) {
+            System.out.println(e.getMessage());
+            throw new InternalServerError("Something went wrong!");
+        }
     }
 
     @Override
@@ -188,6 +219,7 @@ public class StockPriceService implements IStockPriceService {
             System.out.println(e.getMessage());
             throw new InternalServerError("Something went wrong!!");
         }
+
     }
 
     @Override
@@ -262,4 +294,23 @@ public class StockPriceService implements IStockPriceService {
     }
 
 
+//    @Override
+//    public List<StockPrice> companyCompare(CompanyCompareList companyList) {
+//        try {
+//            Optional<Company> queryCompany = companyRepository.findByName(companyName);
+//            if (queryCompany.isEmpty()) {
+//                throw new BadRequestException("Company " + companyName + " does not exist!");
+//            }
+
+//            Company company = queryCompany.get();
+//            //
+//            temp;
+//            company.getStockPrices().stream()
+
+
+//
+//        }
+//
+//    }
+//
 }

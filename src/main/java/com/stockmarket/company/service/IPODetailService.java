@@ -95,10 +95,10 @@ public class IPODetailService implements IIPODetailService {
                 throw new RecordNotFoundException("No IPO is registered under company " + companyName +"!!");
             }
             IPODetail ipoDetail = company.getIpoDetail();
-            ipoDetail.setRemarks(ipoDetail.getRemarks());
-            ipoDetail.setOpenDateTime(ipoDetail.getOpenDateTime());
-            ipoDetail.setPricePerShare(ipoDetail.getPricePerShare());
-            ipoDetail.setTotalNumberOfShares(ipoDetail.getTotalNumberOfShares());
+            ipoDetail.setRemarks(updateIpoDetail.getRemarks());
+            ipoDetail.setOpenDateTime(updateIpoDetail.getOpenDateTime());
+            ipoDetail.setPricePerShare(updateIpoDetail.getPricePerShare());
+            ipoDetail.setTotalNumberOfShares(updateIpoDetail.getTotalNumberOfShares());
 
             // todo updating ipo company
             ipoDetailRepository.save(ipoDetail);

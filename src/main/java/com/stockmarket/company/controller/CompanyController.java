@@ -27,12 +27,12 @@ public class CompanyController {
     }
 
     @PostMapping("/company/map/{companyName}/{exchangeName}")
-    public ResponseEntity<CompanyStockExchangeMap> mapCompanyExchange(@PathVariable String companyName, @PathVariable String exchangeName, @Valid @RequestBody Company company, BindingResult bindingResult) {
+    public ResponseEntity<CompanyStockExchangeMap> mapCompanyExchange(@PathVariable String companyName, @PathVariable String exchangeName, @Valid @RequestBody CompanyStockExchangeMap compSeMap, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             throw new BadRequestException("Please submit with valid entries!");
         }
         System.out.println(bindingResult);
-        CompanyStockExchangeMap newCompSeMap = companyService.mapCompanyExchange(companyName, exchangeName);
+        CompanyStockExchangeMap newCompSeMap = companyService.mapCompanyExchange(companyName, exchangeName, compSeMap);
         return new ResponseEntity<CompanyStockExchangeMap>(newCompSeMap, null, HttpStatus.CREATED);
     }
 

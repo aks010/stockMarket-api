@@ -5,11 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
 @Table(name="StockPrice")
+//@NamedQuery(name = "StockPrice.findByDatee", query = "SELECT c FROM StockPrice c WHERE c.datee BETWEEN :from AND :to ")
+@NamedQuery(name = "StockPrice.findByDatee", query = "SELECT sp.datee,c.companyName,  SUM(sp.sharePrice) FROM StockPrice sp JOIN sp.company c WHERE sp.datee BETWEEN :from AND :to AND c.companyName= :companyName GROUP BY sp.datee")
 public class StockPrice {
     @Id
     @GeneratedValue
@@ -21,8 +25,8 @@ public class StockPrice {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Company company;
-    private Date datee;
-    private Time timee;
+    private LocalDate datee;
+    private LocalTime timee;
 
     private float sharePrice;
 
@@ -30,7 +34,7 @@ public class StockPrice {
 
     public StockPrice() {};
 
-    public StockPrice(String exchangeName, String companyCode, Date datee, float sharePrice) {
+    public StockPrice(String exchangeName, String companyCode, LocalDate datee, float sharePrice) {
         super();
         this.exchangeName = exchangeName;
         this.companyCode = companyCode;
@@ -71,19 +75,19 @@ public class StockPrice {
         this.company = company;
     }
 
-    public Date getDatee() {
+    public LocalDate getDatee() {
         return datee;
     }
 
-    public void setDatee(Date datee) {
+    public void setDatee(LocalDate datee) {
         this.datee = datee;
     }
 
-    public Time getTimee() {
+    public LocalTime getTimee() {
         return timee;
     }
 
-    public void setTimee(Time timee) {
+    public void setTimee(LocalTime timee) {
         this.timee = timee;
     }
 

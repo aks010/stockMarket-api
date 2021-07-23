@@ -25,7 +25,6 @@ public class IPODetail {
     private String remarks;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
     private Company company;
 
     @ManyToMany
