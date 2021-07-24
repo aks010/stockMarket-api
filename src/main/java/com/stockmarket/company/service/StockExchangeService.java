@@ -7,8 +7,6 @@ import com.stockmarket.company.exceptions.InternalServerError;
 import com.stockmarket.company.exceptions.RecordNotFoundException;
 import com.stockmarket.company.repository.StockExchangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,9 +54,7 @@ public class StockExchangeService implements IStockExchangeService {
             StockExchange stockExchange = queryObject.get();
 
             List<Company> companies = stockExchange.getCompStockMap().stream()
-                    .map(compStockMap -> {
-                        return compStockMap.getCompany();
-                    }).collect(Collectors.toList());
+                    .map(compStockMap -> compStockMap.getCompany()).collect(Collectors.toList());
 
             return companies;
         }

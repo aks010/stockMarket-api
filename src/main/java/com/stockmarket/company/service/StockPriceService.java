@@ -36,7 +36,7 @@ public class StockPriceService implements IStockPriceService {
     }
 
     @Override
-    public List<List<Object>> compareCompanies(CompareConfig compare) {
+    public List<Object> compareCompanies(CompareConfig compare) {
         System.out.println(compare);
         System.out.println(compare);
 
@@ -46,16 +46,28 @@ public class StockPriceService implements IStockPriceService {
             LocalDate to = compare.to;
             System.out.println(from);
             System.out.println(to);
-            List<List<Object>> dataset = new ArrayList<>();
+            List<Object> dataset = new ArrayList<>();
 ////
             compare.companyList.stream().forEach(o -> {
-                System.out.println(o);
-                Optional<Company> queryCompany = companyRepository.findByName(o);
+                System.out.println(o.getCompanyName());
+                System.out.println(o.getExchangeName());
+                Optional<Company> queryCompany = companyRepository.findByName(o.getCompanyName());
                 if (queryCompany.isEmpty()) {
-                    throw new BadRequestException("Company "+ o + " does not exist!!");
+                    throw new BadRequestException("Company " + o.getCompanyName() + " does not exist!!");
                 }
-                dataset.add(stockPriceRepository.findByDatee(compare.from, compare.to, o));
+                Optional<StockExchange> queryExchange = stockExchangeRepository.findByName(o.getExchangeName());
+                if (queryExchange.isEmpty()) {
+                    throw new BadRequestException("Exchange " + o.getExchangeName() + " does not exist!!");
+                }
+                dataset.addAll(stockPriceRepository.findByDatee(compare.from, compare.to, o.getCompanyName(), o.getExchangeName()));
             });
+//            compare.sectorList.stream().forEach(o -> {
+//                Optional<Company> querySector = sectorRepository.findByName(o);
+//                if (querySector.isEmpty()) {
+//                    throw new BadRequestException("Sector " + o + " does not exist!!");
+//                }
+//                dataset.addAll(stockPriceRepository.findByDatee(compare.from, compare.to, o.getCompanyName(), o.getExchangeName()));
+//            });
             return dataset;
         }
         catch(BadRequestException e) {throw e;}

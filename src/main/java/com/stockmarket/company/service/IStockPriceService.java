@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IStockPriceService {
     public List<StockPrice> listStockPrices();
-    public List<List<Object>> compareCompanies(CompareConfig companyList);
+    public List<Object> compareCompanies(CompareConfig companyList);
     public List<Company> listStockPriceCompanies( String sectorName);
     public StockPrice newStockPrice(StockPrice company, String companyName);
     public void uploadExcel(List<StockPrice> stockPriceList);

@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface StockPriceRepository extends JpaRepository<StockPrice, Long> {
 //    public List<StockPrice> findByOpenInBetween(LocalDate from, LocalDate to);
-    public List<Object> findByDatee(LocalDate from, LocalDate to, String companyName);
+    public List<Object> findByDatee(LocalDate from, LocalDate to, String companyName,String exchangeName);
 }

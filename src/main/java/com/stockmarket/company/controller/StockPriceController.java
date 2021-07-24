@@ -25,11 +25,10 @@ public class StockPriceController {
         return stockPriceService.listStockPrices();
     }
 
-    @GetMapping("/stockPrices/compare/company")
-    public List<List<Object>> compareCompanies(@RequestBody CompareConfig compare) {
+    @PostMapping("/stockPrices/compare")
+    public List<Object> compareCompanies(@RequestBody CompareConfig compare) {
         return stockPriceService.compareCompanies(compare);
     }
-
 
     @GetMapping("/stockPrices/companies/{stockPriceName}")
     public List<Company> listStockPriceCompanies(@PathVariable String stockPriceName) {

@@ -13,7 +13,7 @@ import java.util.Date;
 @Entity
 @Table(name="StockPrice")
 //@NamedQuery(name = "StockPrice.findByDatee", query = "SELECT c FROM StockPrice c WHERE c.datee BETWEEN :from AND :to ")
-@NamedQuery(name = "StockPrice.findByDatee", query = "SELECT sp.datee,c.companyName,  SUM(sp.sharePrice) FROM StockPrice sp JOIN sp.company c WHERE sp.datee BETWEEN :from AND :to AND c.companyName= :companyName GROUP BY sp.datee")
+@NamedQuery(name = "StockPrice.findByDatee", query = "SELECT sp.datee,c.companyName,  SUM(sp.sharePrice) FROM StockPrice sp JOIN sp.company c WHERE sp.datee BETWEEN :from AND :to AND c.companyName= :companyName AND sp.exchangeName = :exchangeName GROUP BY sp.datee")
 public class StockPrice {
     @Id
     @GeneratedValue
@@ -25,7 +25,7 @@ public class StockPrice {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Company company;
-    private LocalDate datee;
+    private LocalDate datee;    
     private LocalTime timee;
 
     private float sharePrice;
