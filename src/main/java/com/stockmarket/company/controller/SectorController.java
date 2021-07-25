@@ -33,6 +33,7 @@ public class SectorController {
     @PostMapping("/sectors/new")
     public ResponseEntity<Sector> newSector(@Valid @RequestBody Sector sector, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
+            System.out.println(bindingResult);
             throw new BadRequestException("Please submit with valid entries!");
         }
         System.out.println(bindingResult);
@@ -41,18 +42,18 @@ public class SectorController {
     }
 
     // Get a sector by {sectorName}
-    @GetMapping("/sectors/name/{sectorName}")
+    @GetMapping("/sectors/{sectorName}")
     public ResponseEntity<Sector> getSectorByName(@PathVariable String sectorName) {
         Sector sector = sectorService.getSectorByName(sectorName);
         return new ResponseEntity<Sector>(sector, null, HttpStatus.OK);
     }
 
-    // Get a sector by {sectorId}
-    @GetMapping("/sectors/{sectorId}")
-    public ResponseEntity<Sector> getSector(@PathVariable Long sectorId) {
-        Sector sector = sectorService.getSector(sectorId);
-        return new ResponseEntity<Sector>(sector, null, HttpStatus.OK);
-    }
+//    // Get a sector by {sectorId}
+//    @GetMapping("/sectors/{sectorId}")
+//    public ResponseEntity<Sector> getSector(@PathVariable Long sectorId) {
+//        Sector sector = sectorService.getSector(sectorId);
+//        return new ResponseEntity<Sector>(sector, null, HttpStatus.OK);
+//    }
 
     // Check a sector name is available for registration - {sectorName}
     @GetMapping("/sectors/check/{sectorName}")
@@ -66,16 +67,16 @@ public class SectorController {
     }
 
     // Update Sector - {sectorId}
-    @PutMapping("/sectors/update/{sectorId}")
-    public ResponseEntity<Sector> updateSector(@PathVariable Long sectorId, @Valid @RequestBody Sector sector, BindingResult bindingResult) {
-        Sector updatedSector = sectorService.updateSector(sectorId, sector);
+    @PutMapping("/sectors/update/{sectorName}")
+    public ResponseEntity<Sector> updateSector(@PathVariable String sectorName, @Valid @RequestBody Sector sector, BindingResult bindingResult) {
+        Sector updatedSector = sectorService.updateSector(sectorName, sector);
         return new ResponseEntity<Sector>(updatedSector, null, HttpStatus.OK);
     }
 
     // Delete Sector - {sectorId}
-    @DeleteMapping("/sectors/{sectorId}")
-    public ResponseEntity<HttpStatus> removeSector(@PathVariable Long sectorId) {
-        sectorService.removeSector(sectorId);
+    @DeleteMapping("/sectors/{sectorName}")
+    public ResponseEntity<HttpStatus> removeSector(@PathVariable String sectorName) {
+        sectorService.removeSector(sectorName);
         return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
 }

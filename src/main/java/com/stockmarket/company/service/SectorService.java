@@ -60,6 +60,7 @@ public class SectorService implements ISectorService {
             }
             Sector newSector = new Sector();
             newSector.setSectorName(sector.getSectorName());
+            newSector.setBrief(sector.getBrief());
             sectorRepository.save(newSector);
             return newSector;
         }
@@ -76,23 +77,23 @@ public class SectorService implements ISectorService {
 
     // TODO: getSectorPrice Sector ID, From Period, To period, periodicity
 
-    @Override
-    public Sector getSector(Long sectorId) {
-        try {
-            Optional<Sector> querySector = sectorRepository.findById(sectorId);
-            if (querySector.isEmpty()) {
-                throw new RecordNotFoundException();
-            }
-            return querySector.get();
-        }
-        catch (RecordNotFoundException e) {
-            throw e;
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new InternalServerError("Something went wrong!!");
-        }
-    }
+//    @Override
+//    public Sector getSector(Long sectorId) {
+//        try {
+//            Optional<Sector> querySector = sectorRepository.findById(sectorId);
+//            if (querySector.isEmpty()) {
+//                throw new RecordNotFoundException();
+//            }
+//            return querySector.get();
+//        }
+//        catch (RecordNotFoundException e) {
+//            throw e;
+//        }
+//        catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            throw new InternalServerError("Something went wrong!!");
+//        }
+//    }
 
     @Override
     public boolean isSectorNameAvailable(String sectorName) {
@@ -129,23 +130,24 @@ public class SectorService implements ISectorService {
     }
 
     @Override
-    public Sector updateSector(Long sectorId, Sector sectorUpdate) {
+    public Sector updateSector(String sectorName, Sector sectorUpdate) {
         try {
-            Optional<Sector> querySector = sectorRepository.findById(sectorId);
+            System.out.println(sectorName);
+            Optional<Sector> querySector = sectorRepository.findByName(sectorName);
             if (querySector.isEmpty()) {
                 throw new RecordNotFoundException();
             }
             Sector sector = querySector.get();
 
             String sectorUpdateName = sectorUpdate.getSectorName();
-            if(sector.getSectorName()!=sectorUpdateName) {
+            if(!sector.getSectorName().equals(sectorUpdateName)) {
                 Optional<Sector> querySectorByName = sectorRepository.findByName(sectorUpdateName);
                 if(querySectorByName.isPresent()) {
                     throw new BadRequestException("Sector Name "+sectorUpdateName+ " is not available!");
                 }
             }
-
             sector.setSectorName(sectorUpdateName);
+            sector.setBrief(sectorUpdate.getBrief());
             sectorRepository.save(sector);
             return querySector.get();
         }
@@ -162,13 +164,14 @@ public class SectorService implements ISectorService {
     }
 
     @Override
-    public void removeSector(Long sectorId) {
+    public void removeSector(String sectorName) {
         try {
-            Optional<Sector> querySector = sectorRepository.findById(sectorId);
+            Optional<Sector> querySector = sectorRepository.findByName(sectorName);
             if (querySector.isEmpty()) {
                 throw new RecordNotFoundException();
             }
-            sectorRepository.deleteById(sectorId);
+            Sector sector = querySector.get();
+            sectorRepository.deleteById(sector.getId());
         }
         catch (RecordNotFoundException e) {
             throw e;

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -102,46 +103,63 @@ public class StockPriceService implements IStockPriceService {
     }
 
     @Override
-    public void uploadExcel(List<StockPrice> stockPriceList) {
+    public  HashMap<String, Object> uploadExcel(List<StockPrice> stockPriceList) {
         try {
 //            List<StockPrice> newStockPriceList = new ArrayList<>();
 
-            stockPriceList.forEach( stockPrice -> {
-                        String companyCode = stockPrice.getCompanyCode();
-                        Optional<CompanyStockExchangeMap> queryCompSeMap = companyStockExchangeMapRepository.findByCompanyCode(companyCode);
-                        if (queryCompSeMap.isEmpty()) {
-                            throw new BadRequestException("Company Code does not exist!");
-                        }
-
-                        CompanyStockExchangeMap compSeMap = queryCompSeMap.get();
-                        System.out.println(compSeMap.getCompanyCode());
-
-                        String exchangeName = stockPrice.getExchangeName();
-                        if(!exchangeName.equals(compSeMap.getStockExchange().getExchangeName())) {
-                            System.out.println(exchangeName);
-                            System.out.println(compSeMap.getStockExchange().getExchangeName());
+                String resExchangeName = "";
+                String resCompanyName = "";
+                int resCntRecords = 0;
 
 
-                            throw new BadRequestException("No matching pair!!");
-                        }
 
-                        Optional<Company> queryCompany = companyRepository.findByName(compSeMap.getCompany().getCompanyName());
-                        Company company = queryCompany.get();
-
-                        StockPrice newStockPrice = new StockPrice();
-
-                        newStockPrice.setSharePrice(stockPrice.getSharePrice());
-                        newStockPrice.setCompanyCode(companyCode);
-                        newStockPrice.setExchangeName(exchangeName);
-                        newStockPrice.setDatee(stockPrice.getDatee());
-                        newStockPrice.setTimee(stockPrice.getTimee());
-
-                        newStockPrice.setCompany(company);
-                        stockPriceRepository.save(newStockPrice);
-//                        newStockPriceList.add(newStockPrice);
-                        company.addStockPrices(newStockPrice);
+            for(StockPrice stockPrice : stockPriceList) {
+                String companyCode = stockPrice.getCompanyCode();
+                Optional<CompanyStockExchangeMap> queryCompSeMap = companyStockExchangeMapRepository.findByCompanyCode(companyCode);
+                if (queryCompSeMap.isEmpty()) {
+                    throw new BadRequestException("Company Code does not exist!");
                 }
-            );
+
+                CompanyStockExchangeMap compSeMap = queryCompSeMap.get();
+                System.out.println(compSeMap.getCompanyCode());
+
+                String exchangeName = stockPrice.getExchangeName();
+                if (!exchangeName.equals(compSeMap.getStockExchange().getExchangeName())) {
+                    System.out.println(exchangeName);
+                    System.out.println(compSeMap.getStockExchange().getExchangeName());
+
+                    continue;
+//                    throw new BadRequestException("No matching pair!!");
+                }
+
+                Optional<Company> queryCompany = companyRepository.findByName(compSeMap.getCompany().getCompanyName());
+                Company company = queryCompany.get();
+
+                StockPrice newStockPrice = new StockPrice();
+
+                newStockPrice.setSharePrice(stockPrice.getSharePrice());
+                newStockPrice.setCompanyCode(companyCode);
+                newStockPrice.setExchangeName(exchangeName);
+                newStockPrice.setDatee(stockPrice.getDatee());
+                newStockPrice.setTimee(stockPrice.getTimee());
+
+                newStockPrice.setCompany(company);
+                newStockPrice = stockPriceRepository.save(newStockPrice);
+//                        newStockPriceList.add(newStockPrice);
+                company.addStockPrices(newStockPrice);
+                companyRepository.save(company);
+                resCompanyName= company.getCompanyName();
+                resExchangeName = exchangeName;
+                resCntRecords += 1;
+            }
+            HashMap<String, Object> response = new HashMap<String, Object>();
+
+
+            response.put("exchangeName", resExchangeName);
+            response.put("companyName", resCompanyName);
+            response.put("cntRecords", resCntRecords);
+            return response;
+
         }
         catch (BadRequestException e) {
             System.out.println(e.getMessage());

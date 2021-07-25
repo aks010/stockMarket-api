@@ -42,6 +42,12 @@ public class CompanyService implements ICompanyService {
     }
 
     @Override
+    public List<Company> listCompaniesByPattern(String startsWith) {
+        return companyRepository.findByNameStartWith(startsWith);
+    }
+
+
+    @Override
     public Company newCompanyWithSE(Company company, String exchangeName, String sectorName) {
         try {
             // Check: Duplicate

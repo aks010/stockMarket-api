@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface ICompanyService {
     public List<Company> listCompanies();
+    public List<Company> listCompaniesByPattern(String startsWith);
     public Company newCompanyWithSE(Company company, String exchangeName, String sectorName);
     public Company newCompany(Company company, String sectorName);
     public boolean isCompanyNameAvailable(String companyName);

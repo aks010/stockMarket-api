@@ -7,11 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import javax.persistence.PersistenceContext;
-import javax.persistence.PostPersist;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 // company code in STOCK PRICE is actually the ID of the company
@@ -72,30 +68,30 @@ public class CompanyApplication implements CommandLineRunner {
 //		Company company2 = new Company("New 2nsCompany", 732473426D, "metheceo", "hethedirector", "this is the brief");
 //		companyRepository.save(company2);
 
-		Sector sector = new Sector("Mining");
+		Sector sector = new Sector("Mining", "brief of sector Mining");
 //		company.setSector(sector);
 //		companyRepository.save(company);
 //		sector.addCompany(company2);
 		sectorRepository.save(sector);
 
 
-		sector = new Sector("Space");
+		sector = new Sector("Space", "brief of sector Space");
 		sectorRepository.save(sector);
 
-		sector = new Sector("Health");
+		sector = new Sector("Health", "brief of sector Health");
 		sectorRepository.save(sector);
 
-		sector = new Sector("Agriculture");
+		sector = new Sector("Agriculture", "brief of sector Agriculture");
 		sectorRepository.save(sector);
 
-		sector = new Sector("Finance");
+		sector = new Sector("Finance", "brief of sector Finance");
 		sectorRepository.save(sector);
 
-		sector = new Sector("Technology");
+		sector = new Sector("Technology", "brief of sector Technology");
 		sectorRepository.save(sector);
 
 
-		sector = new Sector("Oil & Petroleum");
+		sector = new Sector("Oil & Petroleum", "brief of sector Oil & Petroleum");
 
 		sectorRepository.save(sector);
 

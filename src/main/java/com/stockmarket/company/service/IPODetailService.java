@@ -2,11 +2,13 @@ package com.stockmarket.company.service;
 
 import com.stockmarket.company.entity.Company;
 import com.stockmarket.company.entity.IPODetail;
+import com.stockmarket.company.entity.StockExchange;
 import com.stockmarket.company.exceptions.BadRequestException;
 import com.stockmarket.company.exceptions.InternalServerError;
 import com.stockmarket.company.exceptions.RecordNotFoundException;
 import com.stockmarket.company.repository.CompanyRepository;
 import com.stockmarket.company.repository.IPODetailRepository;
+import com.stockmarket.company.repository.StockExchangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ public class IPODetailService implements IIPODetailService {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private StockExchangeRepository stockExchangeRepository;
     @Override
     public List<IPODetail> listIPODetails() {
         return ipoDetailRepository.findAll();
@@ -82,6 +86,57 @@ public class IPODetailService implements IIPODetailService {
         }
 
     };
+
+
+    @Override
+    public IPODetail mapIpoExchange(String companyName, String exchangeName) {
+        try {
+            Optional<Company> queryObject = companyRepository.findByName(companyName);
+            if (queryObject.isEmpty()) {
+                throw new RecordNotFoundException("Company "+ companyName + " does not exist!!");
+            }
+            Optional<StockExchange> queryExchange = stockExchangeRepository.findByName(exchangeName);
+            if (queryExchange.isEmpty()) {
+                throw new RecordNotFoundException("Exchange "+ exchangeName + " does not exist!!");
+            }
+
+            Company company = queryObject.get();
+            if(company.getIpoDetail() == null) {
+                throw new RecordNotFoundException("No IPO is registered under company " + companyName +"!!");
+            }
+
+            StockExchange stockExchange = queryExchange.get();
+            IPODetail ipoDetail = company.getIpoDetail();
+
+
+
+            Optional<StockExchange> result = ipoDetail.getStockExchanges().stream().filter(o -> o.getExchangeName().equals(exchangeName)).findAny();
+            if(result.isPresent()) {
+                System.out.println(result.get().getExchangeName());
+                throw new BadRequestException("IPO is already added to this stock exchange!");
+            }
+
+            ipoDetail.addStockExchange(stockExchange);
+            stockExchange.addIpoDetail(ipoDetail);
+            stockExchangeRepository.save(stockExchange);
+            ipoDetailRepository.save(ipoDetail);
+            return ipoDetail;
+        }
+        catch(RecordNotFoundException e) {
+            throw e;
+        }
+
+        catch(BadRequestException e) {
+            throw e;
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new InternalServerError("Something went wrong!");
+        }
+
+    };
+
+
     // todo fix in se exchangeName
     @Override
     public IPODetail updateIPODetail(String companyName, IPODetail updateIpoDetail) {

@@ -39,6 +39,11 @@ public class IPODetailController {
         IPODetail ipoDetail = ipoDetailService.getIPODetail(companyName);
         return new ResponseEntity<IPODetail>(ipoDetail, null, HttpStatus.OK);
     }
+    @GetMapping("/ipo/map/{companyName}/{exchangeName}")
+    public ResponseEntity<IPODetail> mapIpoExchange(@PathVariable String companyName, @PathVariable String exchangeName) {
+        IPODetail ipoDetail = ipoDetailService.mapIpoExchange(companyName, exchangeName);
+        return new ResponseEntity<IPODetail>(ipoDetail, null, HttpStatus.OK);
+    }
 
     @PutMapping("/ipo/update/{companyName}")
     public ResponseEntity<IPODetail> updateIPODetail(@PathVariable String companyName, @Valid @RequestBody IPODetail ipoDetail, BindingResult bindingResult) {

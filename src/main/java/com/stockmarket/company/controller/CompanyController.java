@@ -26,6 +26,13 @@ public class CompanyController {
         return companyService.listCompanies();
     }
 
+    // List Existing Companies
+    @GetMapping("/company/list/pattern/{companyPattern}")
+    public List<Company> listCompaniesByPattern(@PathVariable String companyPattern) {
+        return companyService.listCompaniesByPattern(companyPattern);
+    }
+
+
     @PostMapping("/company/map/{companyName}/{exchangeName}")
     public ResponseEntity<CompanyStockExchangeMap> mapCompanyExchange(@PathVariable String companyName, @PathVariable String exchangeName, @Valid @RequestBody CompanyStockExchangeMap compSeMap, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
@@ -55,23 +62,25 @@ public class CompanyController {
         return new ResponseEntity<Company>(company, null, HttpStatus.OK);
     }
 
-    // Check a company name is available for registration - {companyName}
-    @GetMapping("/company/check/{companyName}")
-    public ResponseEntity<HttpStatus> isCompanyNameAvailable(@PathVariable String companyName) {
-        if(companyService.isCompanyNameAvailable(companyName)) {
-            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
-        }
-    }
 
-    // Get a company by {companyId}
-    @GetMapping("/company/{companyId}")
-    public ResponseEntity<Company> getCompany(@PathVariable Long companyId) {
-        Company company = companyService.getCompany(companyId);
-        return new ResponseEntity<Company>(company, null, HttpStatus.OK);
-    }
+
+//    // Check a company name is available for registration - {companyName}
+//    @GetMapping("/company/check/{companyName}")
+//    public ResponseEntity<HttpStatus> isCompanyNameAvailable(@PathVariable String companyName) {
+//        if(companyService.isCompanyNameAvailable(companyName)) {
+//            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+//        }
+//        else {
+//            return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+//        }
+//    }
+
+//    // Get a company by {companyId}
+//    @GetMapping("/company/{companyId}")
+//    public ResponseEntity<Company> getCompany(@PathVariable Long companyId) {
+//        Company company = companyService.getCompany(companyId);
+//        return new ResponseEntity<Company>(company, null, HttpStatus.OK);
+//    }
 
     // Update Company - {companyId}
     @PutMapping("/company/update/{companyName}")

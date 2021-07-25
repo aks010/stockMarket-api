@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,11 @@ public class Sector {
     @Id
     @GeneratedValue
     private long id;
+
+    @Column(nullable = false)
+    @NotBlank(message = "{sectorName.required}")
     private String sectorName;
+    private String brief;
 
     @OneToMany(mappedBy = "sector")
     @JsonIgnore
@@ -25,9 +30,10 @@ public class Sector {
     // CONSTRUCTOR
     public Sector() {super();}
 
-    public Sector(String sectorName) {
+    public Sector(String sectorName, String brief) {
         super();
         this.sectorName = sectorName;
+        this.brief=  brief;
     }
 
     // GETTERS AND SETTERS
@@ -50,5 +56,13 @@ public class Sector {
 
     public void addCompany(Company company) {
         this.companies.add(company);
+    }
+
+    public String getBrief() {
+        return brief;
+    }
+
+    public void setBrief(String brief) {
+        this.brief = brief;
     }
 }

@@ -12,8 +12,7 @@ public interface ISectorService {
     public List<Company> listSectorCompanies( String sectorName);
     public Sector newSector(Sector company);
     public boolean isSectorNameAvailable(String sectorName);
-    public Sector getSector(Long sectorId);
     public Sector getSectorByName(String sectorName);
-    public Sector updateSector(Long sectorId, Sector sector);
-    public void removeSector(Long stockId);
+    public Sector updateSector(String sectorName, Sector sector);
+    public void removeSector(String sectorName);
 }

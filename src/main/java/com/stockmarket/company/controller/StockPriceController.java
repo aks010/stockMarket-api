@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -48,13 +49,13 @@ public class StockPriceController {
 
     // upload Stock Price Excel
     @PostMapping("/stockPrices/uploadExcel")
-    public ResponseEntity<HttpStatus> newStockPrice(@Valid @RequestBody List<StockPrice> stockPriceList, BindingResult bindingResult) {
+    public ResponseEntity<HashMap<String, Object>> newStockPrice(@Valid @RequestBody List<StockPrice> stockPriceList, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             throw new BadRequestException("Please submit with valid entries!");
         }
         System.out.println(bindingResult);
-        stockPriceService.uploadExcel(stockPriceList);
-        return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
+        HashMap<String, Object> response = stockPriceService.uploadExcel(stockPriceList);
+        return new ResponseEntity< HashMap<String, Object>>(response, null, HttpStatus.CREATED);
     }
 
     // Get a stockPrice by {stockPriceId}

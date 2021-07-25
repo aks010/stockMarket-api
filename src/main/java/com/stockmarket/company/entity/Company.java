@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "Company")
 @NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company c WHERE c.companyName = :companyName")
+@NamedQuery(name = "Company.findByNameStartWith", query = "SELECT c FROM Company c WHERE c.companyName LIKE CONCAT(:startsWith,'%')")
 //@NamedQuery(name = "Company.findBySector", query = "SELECT c FROM Company c JOIN c.sector s WHERE  s.id = :sectorId")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Company {
