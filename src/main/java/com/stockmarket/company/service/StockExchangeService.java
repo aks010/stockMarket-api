@@ -106,6 +106,10 @@ public class StockExchangeService implements IStockExchangeService {
             }
             StockExchange queriedStockExchange = queryObject.get();
             queriedStockExchange.setExchangeName(stockExchange.getExchangeName());
+            queriedStockExchange.setBrief(stockExchange.getBrief());
+            queriedStockExchange.setContactAddress(stockExchange.getContactAddress());
+            queriedStockExchange.setRemarks(stockExchange.getRemarks());
+
             stockExchangeRepository.save(queriedStockExchange);
 
             return stockExchange;

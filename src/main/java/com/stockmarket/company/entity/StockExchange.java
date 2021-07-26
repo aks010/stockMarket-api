@@ -16,6 +16,9 @@ public class StockExchange {
     @GeneratedValue
     private long id;
     private String exchangeName;
+    private String brief;
+    private String contactAddress;
+    private String remarks;
 
     @OneToMany(targetEntity = CompanyStockExchangeMap.class, mappedBy = "stockExchange")
     @JsonIgnore
@@ -32,6 +35,9 @@ public class StockExchange {
     public StockExchange(String exchangeName) {
         super();
         this.exchangeName = exchangeName;
+        this.brief = brief;
+        this.contactAddress = contactAddress;
+        this.remarks = remarks;
     }
 
     // GETTERS AND SETTERS
@@ -60,6 +66,29 @@ public class StockExchange {
         this.compStockMap.add( compStockMapElement);
     }
 
+    public String getBrief() {
+        return brief;
+    }
+
+    public void setBrief(String brief) {
+        this.brief = brief;
+    }
+
+    public String getContactAddress() {
+        return contactAddress;
+    }
+
+    public void setContactAddress(String contactAddress) {
+        this.contactAddress = contactAddress;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
 
     public List<IPODetail> getIpoDetails() {
         return ipoDetails;
