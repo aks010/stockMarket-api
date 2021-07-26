@@ -34,7 +34,7 @@ public class IPODetailService implements IIPODetailService {
     public IPODetail newIPODetail(String companyName, IPODetail ipoDetail) {
         try {
             Optional<Company> queryObject = companyRepository.findByName(companyName);
-            if (queryObject.isEmpty()) {
+            if (!queryObject.isPresent()) {
                 throw new BadRequestException("Company "+ companyName + " does not exist!!");
             }
 
@@ -67,7 +67,7 @@ public class IPODetailService implements IIPODetailService {
     public IPODetail getIPODetail(String companyName) {
         try {
             Optional<Company> queryObject = companyRepository.findByName(companyName);
-            if (queryObject.isEmpty()) {
+            if (!queryObject.isPresent()) {
                 throw new RecordNotFoundException("Company "+ companyName + " does not exist!!");
             }
 
@@ -92,11 +92,11 @@ public class IPODetailService implements IIPODetailService {
     public IPODetail mapIpoExchange(String companyName, String exchangeName) {
         try {
             Optional<Company> queryObject = companyRepository.findByName(companyName);
-            if (queryObject.isEmpty()) {
+            if (!queryObject.isPresent()) {
                 throw new RecordNotFoundException("Company "+ companyName + " does not exist!!");
             }
             Optional<StockExchange> queryExchange = stockExchangeRepository.findByName(exchangeName);
-            if (queryExchange.isEmpty()) {
+            if (!queryExchange.isPresent()) {
                 throw new RecordNotFoundException("Exchange "+ exchangeName + " does not exist!!");
             }
 
@@ -142,7 +142,7 @@ public class IPODetailService implements IIPODetailService {
     public IPODetail updateIPODetail(String companyName, IPODetail updateIpoDetail) {
         try {
             Optional<Company> queryObject = companyRepository.findByName(companyName);
-            if (queryObject.isEmpty()) {
+            if (!queryObject.isPresent()) {
                 throw new RecordNotFoundException("Company "+ companyName + " does not exist!!");
             }
             Company company = queryObject.get();
@@ -174,7 +174,7 @@ public class IPODetailService implements IIPODetailService {
     public void removeIPODetail(String companyName) {
         try {
             Optional<Company> queryObject = companyRepository.findByName(companyName);
-            if (queryObject.isEmpty()) {
+            if (!queryObject.isPresent()) {
                 throw new RecordNotFoundException("Company "+ companyName + " does not exist!!");
             }
             Company company = queryObject.get();

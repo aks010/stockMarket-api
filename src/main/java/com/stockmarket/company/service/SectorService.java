@@ -33,7 +33,7 @@ public class SectorService implements ISectorService {
         try {
             // Check: Duplicate
             Optional<Sector> querySector = sectorRepository.findByName(sectorName);
-            if (querySector.isEmpty()) {
+            if (!querySector.isPresent()) {
                 throw new BadRequestException("Sector "+ sectorName + " does not exist");
             }
             Sector sector = querySector.get();
@@ -81,7 +81,7 @@ public class SectorService implements ISectorService {
 //    public Sector getSector(Long sectorId) {
 //        try {
 //            Optional<Sector> querySector = sectorRepository.findById(sectorId);
-//            if (querySector.isEmpty()) {
+//            if !(querySector.isPresent()()) {
 //                throw new RecordNotFoundException();
 //            }
 //            return querySector.get();
@@ -99,7 +99,7 @@ public class SectorService implements ISectorService {
     public boolean isSectorNameAvailable(String sectorName) {
         try {
             Optional<Sector> querySector = sectorRepository.findByName(sectorName);
-            if (querySector.isEmpty()) {
+            if (!querySector.isPresent()) {
                 return true;
             }
             return false;
@@ -115,7 +115,7 @@ public class SectorService implements ISectorService {
     public Sector getSectorByName(String sectorName) {
         try {
             Optional<Sector> querySector = sectorRepository.findByName(sectorName);
-            if (querySector.isEmpty()) {
+            if (!querySector.isPresent()) {
                 throw new RecordNotFoundException();
             }
             return querySector.get();
@@ -134,7 +134,7 @@ public class SectorService implements ISectorService {
         try {
             System.out.println(sectorName);
             Optional<Sector> querySector = sectorRepository.findByName(sectorName);
-            if (querySector.isEmpty()) {
+            if (!querySector.isPresent()) {
                 throw new RecordNotFoundException();
             }
             Sector sector = querySector.get();
@@ -167,7 +167,7 @@ public class SectorService implements ISectorService {
     public void removeSector(String sectorName) {
         try {
             Optional<Sector> querySector = sectorRepository.findByName(sectorName);
-            if (querySector.isEmpty()) {
+            if (!querySector.isPresent()) {
                 throw new RecordNotFoundException();
             }
             Sector sector = querySector.get();

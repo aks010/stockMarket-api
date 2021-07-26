@@ -48,7 +48,7 @@ public class StockExchangeService implements IStockExchangeService {
         try {
 
             Optional<StockExchange> queryObject = stockExchangeRepository.findByName(exchangeName);
-            if (queryObject.isEmpty()) {
+            if (!queryObject.isPresent()) {
                 throw new RecordNotFoundException("StockExchange "+exchangeName+ " does not exist!");
             }
             StockExchange stockExchange = queryObject.get();
@@ -74,7 +74,7 @@ public class StockExchangeService implements IStockExchangeService {
         try {
 
             Optional<StockExchange> queryObject = stockExchangeRepository.findByName(exchangeName);
-            if (queryObject.isEmpty()) {
+            if (!queryObject.isPresent()) {
                 throw new RecordNotFoundException("StockExchange "+exchangeName+ " does not exist!");
             }
             StockExchange stockExchange = queryObject.get();
@@ -93,7 +93,7 @@ public class StockExchangeService implements IStockExchangeService {
     public StockExchange updateStockExchange(String exchangeName, StockExchange stockExchange) {
         try {
             Optional<StockExchange> queryObject = stockExchangeRepository.findByName(stockExchange.getExchangeName());
-            if (queryObject.isEmpty()) {
+            if (!queryObject.isPresent()) {
                 throw new BadRequestException("StockExchange does not exist!");
             }
 
@@ -123,7 +123,7 @@ public class StockExchangeService implements IStockExchangeService {
     public void removeStockExchange(String exchangeName) {
         try {
             Optional<StockExchange> queryObject = stockExchangeRepository.findByName(exchangeName);
-            if(queryObject.isEmpty()) {
+            if(!queryObject.isPresent()) {
                 throw new BadRequestException("Stock Exchange " +exchangeName +" does not exist!");
             }
             StockExchange stockExchange = queryObject.get();

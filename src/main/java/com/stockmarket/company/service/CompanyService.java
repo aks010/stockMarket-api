@@ -60,14 +60,14 @@ public class CompanyService implements ICompanyService {
 
             // Check: Sector Exists
             Optional<Sector> querySector = sectorRepository.findByName(sectorName);
-            if(querySector.isEmpty()) {
+            if(!querySector.isPresent()) {
                 System.out.println("NOT FOUND!!!!!");
                 throw new RecordNotFoundException("Sector "+sectorName+" does not exist!");
             }
             System.out.println("SECTOR!!!!!");
             // Check: StockExchange
             Optional<StockExchange> queryStockExchange = stockExchangeRepository.findByName(exchangeName);
-            if(queryStockExchange.isEmpty()) {
+            if(!queryStockExchange.isPresent()) {
                 System.out.println("SE NOT FOUND!!!!!");
                 throw new RecordNotFoundException("Stock Exchange "+ exchangeName +" does not exist!");
             }
@@ -127,7 +127,7 @@ public class CompanyService implements ICompanyService {
 
             // Check: Sector Exists
             Optional<Sector> querySector = sectorRepository.findByName(sectorName);
-            if(querySector.isEmpty()) {
+            if(!querySector.isPresent()) {
                 System.out.println("NOT FOUND!!!!!");
                 throw new RecordNotFoundException("Sector "+sectorName+" does not exist!");
             }
@@ -162,11 +162,11 @@ public class CompanyService implements ICompanyService {
     public CompanyStockExchangeMap mapCompanyExchange(String companyName, String exchangeName, CompanyStockExchangeMap compSeMap) {
         try {
             Optional<Company> queryCompany = companyRepository.findByName(companyName);
-            if (queryCompany.isEmpty()) {
+            if (!queryCompany.isPresent()) {
                 throw new BadRequestException("Company "+ companyName + " does not exist !!");
             }
             Optional<StockExchange> queryExchange = stockExchangeRepository.findByName(exchangeName);
-            if(queryExchange.isEmpty()) {
+            if(!queryExchange.isPresent()) {
                 System.out.println("NOT FOUND!!!!!");
                 throw new BadRequestException("SE "+exchangeName+" does not exist!");
             }
@@ -232,7 +232,7 @@ public class CompanyService implements ICompanyService {
     public Company getCompany(Long companyId) {
         try {
             Optional<Company> queryCompany = companyRepository.findById(companyId);
-            if (queryCompany.isEmpty()) {
+            if (!queryCompany.isPresent()) {
                 throw new RecordNotFoundException();
             }
             return queryCompany.get();
@@ -250,7 +250,7 @@ public class CompanyService implements ICompanyService {
     public boolean isCompanyNameAvailable(String companyName) {
         try {
             Optional<Company> queryCompany = companyRepository.findByName(companyName);
-            if (queryCompany.isEmpty()) {
+            if (!queryCompany.isPresent()) {
                 return true;
             }
             return false;
@@ -266,7 +266,7 @@ public class CompanyService implements ICompanyService {
     public Company getCompanyByName(String companyName) {
         try {
             Optional<Company> queryCompany = companyRepository.findByName(companyName);
-            if (queryCompany.isEmpty()) {
+            if (!queryCompany.isPresent()) {
                 throw new RecordNotFoundException();
             }
             return queryCompany.get();
@@ -284,7 +284,7 @@ public class CompanyService implements ICompanyService {
     public Company updateCompany(String companyName, Company companyUpdate) {
         try {
             Optional<Company> queryCompany = companyRepository.findByName(companyName);
-            if (queryCompany.isEmpty()) {
+            if (!queryCompany.isPresent()) {
                 throw new RecordNotFoundException();
             }
             Company company = queryCompany.get();
@@ -306,7 +306,7 @@ public class CompanyService implements ICompanyService {
             // Check: Sector Exists
             String sectorName = companyUpdate.getSector().getSectorName();
             Optional<Sector> querySector = sectorRepository.findByName(sectorName);
-            if(querySector.isEmpty()) {
+            if(!querySector.isPresent()) {
                 System.out.println("NOT FOUND!!!!!");
                 throw new RecordNotFoundException("Sector "+sectorName+" does not exist!");
             }
@@ -340,7 +340,7 @@ public class CompanyService implements ICompanyService {
     public void removeCompany(Long companyId) {
         try {
             Optional<Company> queryCompany = companyRepository.findById(companyId);
-            if (queryCompany.isEmpty()) {
+            if (!queryCompany.isPresent()) {
                 throw new RecordNotFoundException();
             }
             companyRepository.deleteById(companyId);

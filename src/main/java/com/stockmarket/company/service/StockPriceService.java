@@ -53,18 +53,18 @@ public class StockPriceService implements IStockPriceService {
                 System.out.println(o.getCompanyName());
                 System.out.println(o.getExchangeName());
                 Optional<Company> queryCompany = companyRepository.findByName(o.getCompanyName());
-                if (queryCompany.isEmpty()) {
+                if (!queryCompany.isPresent()) {
                     throw new BadRequestException("Company " + o.getCompanyName() + " does not exist!!");
                 }
                 Optional<StockExchange> queryExchange = stockExchangeRepository.findByName(o.getExchangeName());
-                if (queryExchange.isEmpty()) {
+                if (!queryExchange.isPresent()) {
                     throw new BadRequestException("Exchange " + o.getExchangeName() + " does not exist!!");
                 }
                 dataset.addAll(stockPriceRepository.findByDatee(compare.from, compare.to, o.getCompanyName(), o.getExchangeName()));
             });
 //            compare.sectorList.stream().forEach(o -> {
 //                Optional<Company> querySector = sectorRepository.findByName(o);
-//                if (querySector.isEmpty()) {
+//                if (!querySector.isPresent()) {
 //                    throw new BadRequestException("Sector " + o + " does not exist!!");
 //                }
 //                dataset.addAll(stockPriceRepository.findByDatee(compare.from, compare.to, o.getCompanyName(), o.getExchangeName()));
@@ -83,7 +83,7 @@ public class StockPriceService implements IStockPriceService {
         try {
             // Check: Duplicate
 //            Optional<StockPrice> queryStockPrice = stockPriceRepository.findByName(stockPriceName);
-//            if (queryStockPrice.isEmpty()) {
+//            if (!queryStockPrice.isPresent()) {
 //                throw new BadRequestException("StockPrice "+ stockPriceName + " does not exist");
 //            }
 //            StockPrice stockPrice = queryStockPrice.get();
@@ -116,7 +116,7 @@ public class StockPriceService implements IStockPriceService {
             for(StockPrice stockPrice : stockPriceList) {
                 String companyCode = stockPrice.getCompanyCode();
                 Optional<CompanyStockExchangeMap> queryCompSeMap = companyStockExchangeMapRepository.findByCompanyCode(companyCode);
-                if (queryCompSeMap.isEmpty()) {
+                if (!queryCompSeMap.isPresent()) {
                     throw new BadRequestException("Company Code does not exist!");
                 }
 
@@ -181,12 +181,12 @@ public class StockPriceService implements IStockPriceService {
     public StockPrice newStockPrice(StockPrice stockPrice, String companyName) {
         try {
             Optional<Company> queryCompany = companyRepository.findByName(companyName);
-            if (queryCompany.isEmpty()) {
+            if (!queryCompany.isPresent()) {
                 throw new BadRequestException("Company "+ companyName + " does not exist!");
             }
             String exchangeName = stockPrice.getExchangeName();
             Optional<StockExchange> queryStockExchange = stockExchangeRepository.findByName(exchangeName);
-            if(queryStockExchange.isEmpty()) {
+            if(!queryStockExchange.isPresent()) {
                 System.out.println("SE NOT FOUND!!!!!");
                 throw new RecordNotFoundException("Stock Exchange "+ exchangeName +" does not exist!");
             }
@@ -196,7 +196,7 @@ public class StockPriceService implements IStockPriceService {
             Optional<CompanyStockExchangeMap> queryCmSeMap = company.getCompStockMap().stream()
                     .filter( el -> exchangeName.equals(el.getStockExchange().getExchangeName()))
                     .findAny();
-            if(queryCmSeMap.isEmpty()) {
+            if(!queryCmSeMap.isPresent()) {
                 System.out.println("NO MAPPING FOR GIVEN COMPANY AND SE!!!!!");
                 throw new BadRequestException("Company "+ companyName + " SE " + exchangeName +" are not mapped!");
             }
@@ -237,7 +237,7 @@ public class StockPriceService implements IStockPriceService {
     public StockPrice getStockPrice(Long stockPriceId) {
         try {
             Optional<StockPrice> queryStockPrice = stockPriceRepository.findById(stockPriceId);
-            if (queryStockPrice.isEmpty()) {
+            if (!queryStockPrice.isPresent()) {
                 throw new RecordNotFoundException();
             }
             return queryStockPrice.get();
@@ -256,7 +256,7 @@ public class StockPriceService implements IStockPriceService {
     public StockPrice getStockPriceByName(String stockPriceName) {
         try {
 //            Optional<StockPrice> queryStockPrice = stockPriceRepository.findByName(stockPriceName);
-//            if (queryStockPrice.isEmpty()) {
+//            if (!queryStockPrice.isPresent()) {
 //                throw new RecordNotFoundException();
 //            }
 //            return queryStockPrice.get();
@@ -275,7 +275,7 @@ public class StockPriceService implements IStockPriceService {
     public StockPrice updateStockPrice(Long stockPriceId, StockPrice stockPriceUpdate) {
         try {
             Optional<StockPrice> queryStockPrice = stockPriceRepository.findById(stockPriceId);
-            if (queryStockPrice.isEmpty()) {
+            if (!queryStockPrice.isPresent()) {
                 throw new RecordNotFoundException();
             }
             StockPrice stockPrice = queryStockPrice.get();
@@ -309,7 +309,7 @@ public class StockPriceService implements IStockPriceService {
     public void removeStockPrice(Long stockPriceId) {
         try {
             Optional<StockPrice> queryStockPrice = stockPriceRepository.findById(stockPriceId);
-            if (queryStockPrice.isEmpty()) {
+            if (!queryStockPrice.isPresent()) {
                 throw new RecordNotFoundException();
             }
             stockPriceRepository.deleteById(stockPriceId);
@@ -328,7 +328,7 @@ public class StockPriceService implements IStockPriceService {
 //    public List<StockPrice> companyCompare(CompanyCompareList companyList) {
 //        try {
 //            Optional<Company> queryCompany = companyRepository.findByName(companyName);
-//            if (queryCompany.isEmpty()) {
+//            if (!queryCompany.isPresent()) {
 //                throw new BadRequestException("Company " + companyName + " does not exist!");
 //            }
 
