@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface MyUserRepository extends JpaRepository<MyUser, Long>, PagingAndSortingRepository<MyUser, Long> {
     public Optional<MyUser> findByEmail(String email);
 
-    public MyUser findByUsername(String username);
+    public Optional<MyUser> findByUsername(String username);
 }

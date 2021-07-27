@@ -21,33 +21,33 @@ public class MyUserController {
 
     // List Existing Users
     @GetMapping("/users/list")
-    public Page<MyUser> listUser1s(Pageable pageable) {
+    public Page<MyUser> listMyUsers(Pageable pageable) {
         return myUserService.listUsers(pageable);
     }
 
     // Create new User
-    @PostMapping("/users/new")
-    public ResponseEntity<MyUser> newUser1(@Valid @RequestBody MyUser myUser, BindingResult bindingResult) {
-            if(bindingResult.hasErrors()) {
-                throw new BadRequestException("Please submit with valid entries!");
-            }
-
-            System.out.println(bindingResult);
-
-            MyUser newMyUser = myUserService.newUser(myUser);
-            return new ResponseEntity<MyUser>(newMyUser, null, HttpStatus.CREATED);
-    }
+//    @PostMapping("/users/new")
+//    public ResponseEntity<MyUsers> newUser1(@Valid @RequestBody MyUser myUser, BindingResult bindingResult) {
+//            if(bindingResult.hasErrors()) {
+//                throw new BadRequestException("Please submit with valid entries!");
+//            }
+//
+//            System.out.println(bindingResult);
+//
+//            MyUser newMyUser = myUserService.newUser(myUser);
+//            return new ResponseEntity<MyUser>(newMyUser, null, HttpStatus.CREATED);
+//    }
 
     // Create new User
-    @PostMapping("/users/login")
-    public ResponseEntity<MyUser> loginMyUser(@Valid @RequestBody MyUser myUser, BindingResult bindingResult) {
-        if(myUser.getEmail() == null || myUser.getEmail() == "" || myUser.getPassword()==null || myUser.getPassword()=="" ) {
-            throw new BadRequestException("Please submit with valid entries!");
-        }
-
-        MyUser newMyUser = myUserService.loginMyUser(myUser);
-        return new ResponseEntity<MyUser>(newMyUser, null, HttpStatus.CREATED);
-    }
+//    @PostMapping("/users/login")
+//    public ResponseEntity<MyUser> loginMyUser(@Valid @RequestBody MyUser myUser, BindingResult bindingResult) {
+//        if(myUser.getEmail() == null || myUser.getEmail() == "" || myUser.getPassword()==null || myUser.getPassword()=="" ) {
+//            throw new BadRequestException("Please submit with valid entries!");
+//        }
+//
+//        MyUser newMyUser = myUserService.loginMyUser(myUser);
+//        return new ResponseEntity<MyUser>(newMyUser, null, HttpStatus.CREATED);
+//    }
 
     // Get a user by {userId}
     @GetMapping("/users/{userId}")
@@ -71,9 +71,9 @@ public class MyUserController {
     }
 
     // Confirm User with id - {userId}
-    @GetMapping(value="/confirmuser/{email}")
-    public ResponseEntity<String> confirmUser(@PathVariable String email) {
-        String response = myUserService.confirmUser(email);
+    @GetMapping(value="/confirmuser/{username}")
+    public ResponseEntity<String> confirmUser(@PathVariable String username) {
+        String response = myUserService.confirmUser(username);
         return new ResponseEntity<String>(response, HttpStatus.OK);
     }
 
