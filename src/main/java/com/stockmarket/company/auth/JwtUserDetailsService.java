@@ -98,7 +98,6 @@ public class JwtUserDetailsService implements UserDetailsService {
             newUser.setMobile(myUser.getMobile());
             newUser.setAdmin(myUser.getAdmin());
             newUser.setConfirmed(myUser.getConfirmed());
-            // todo: email
             newUser = myUserRepository.save(newUser);
 
             // ToDo: EMAIL with other smtp service provider
@@ -119,7 +118,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 System.out.println("PREPARING TO SEND EMAIL!!");
         final String email = "ashish.iitr017@gmail.com";
-        final String password = "Ashish_3787";
+        final String password = "";
 
         Properties prop = new Properties();
 
