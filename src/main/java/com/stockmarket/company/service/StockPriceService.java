@@ -4,10 +4,7 @@ import com.stockmarket.company.entity.*;
 import com.stockmarket.company.exceptions.BadRequestException;
 import com.stockmarket.company.exceptions.InternalServerError;
 import com.stockmarket.company.exceptions.RecordNotFoundException;
-import com.stockmarket.company.repository.CompanyRepository;
-import com.stockmarket.company.repository.CompanyStockExchangeMapRepository;
-import com.stockmarket.company.repository.StockExchangeRepository;
-import com.stockmarket.company.repository.StockPriceRepository;
+import com.stockmarket.company.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +23,9 @@ public class StockPriceService implements IStockPriceService {
     private StockExchangeRepository stockExchangeRepository;
 
     @Autowired
+    private SectorRepository sectorRepository;
+
+    @Autowired
     private CompanyRepository companyRepository;
 
     @Autowired
@@ -38,8 +38,8 @@ public class StockPriceService implements IStockPriceService {
 
     @Override
     public List<Object> compareCompanies(CompareConfig compare) {
-        System.out.println(compare);
-        System.out.println(compare);
+//        System.out.println(compare);
+//        System.out.println(compare);
 
         try {
 
@@ -62,17 +62,23 @@ public class StockPriceService implements IStockPriceService {
                 }
                 dataset.addAll(stockPriceRepository.findByDatee(compare.from, compare.to, o.getCompanyName(), o.getExchangeName()));
             });
-//            compare.sectorList.stream().forEach(o -> {
-//                Optional<Company> querySector = sectorRepository.findByName(o);
-//                if (!querySector.isPresent()) {
-//                    throw new BadRequestException("Sector " + o + " does not exist!!");
-//                }
+
+            compare.sectorList.stream().forEach(o -> {
+                Optional<Sector> querySector = sectorRepository.findByName(o);
+                if (!querySector.isPresent()) {
+                    throw new BadRequestException("Sector " + o + " does not exist!!");
+                }
+                List<Object> sectorDataList = stockPriceRepository.findByDateeSector(o, compare.from, compare.to);
+
+                dataset.addAll(sectorDataList);
+//                dataset.addAll(stockPriceRepository.findByDateeSector(o, compare.from, compare.to));
 //                dataset.addAll(stockPriceRepository.findByDatee(compare.from, compare.to, o.getCompanyName(), o.getExchangeName()));
-//            });
+            });
             return dataset;
         }
         catch(BadRequestException e) {throw e;}
         catch(Exception e) {
+            e.printStackTrace();
             System.out.println(e.getMessage());
             throw new InternalServerError("Something went wrong!");
         }

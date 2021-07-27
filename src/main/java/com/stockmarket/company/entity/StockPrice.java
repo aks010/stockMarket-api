@@ -14,6 +14,16 @@ import java.util.Date;
 @Table(name="StockPrice")
 //@NamedQuery(name = "StockPrice.findByDatee", query = "SELECT c FROM StockPrice c WHERE c.datee BETWEEN :from AND :to ")
 @NamedQuery(name = "StockPrice.findByDatee", query = "SELECT sp.datee,c.companyName,  SUM(sp.sharePrice) FROM StockPrice sp JOIN sp.company c WHERE sp.datee BETWEEN :from AND :to AND c.companyName= :companyName AND sp.exchangeName = :exchangeName GROUP BY sp.datee")
+@NamedQuery(name="StockPrice.findByDateeSector", query="" +
+//        "SELECT sp.datee, AVG(sp.price) FROM"+
+        "SELECT  sp.datee, 'sector' as sectorName ,AVG(sp.sharePrice) FROM StockPrice sp JOIN sp.company c WHERE " +
+        "sp.datee BETWEEN :from AND :to AND "+
+        "c.companyName IN"+
+        "(SELECT c.companyName FROM Company JOIN c.sector s WHERE s.sectorName = :sectorName) "+
+        "GROUP BY sp.datee, c.companyName "
+//        "GROUP BY sp.datee"
+)
+
 public class StockPrice {
     @Id
     @GeneratedValue

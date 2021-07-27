@@ -24,6 +24,10 @@ public class IPODetailController {
     public List<IPODetail> listIPODetails() {
         return ipoDetailService.listIPODetails();
     }
+    @GetMapping("/ipo/list/upcoming")
+    public List<IPODetail> listUpcoming() {
+        return ipoDetailService.listUpcoming();
+    }
 
     @PostMapping("/ipo/new/{companyName}")
     public ResponseEntity<IPODetail> newIPODetail(@PathVariable String companyName, @Valid @RequestBody IPODetail ipoDetail, BindingResult bindingResult) {

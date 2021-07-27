@@ -10,6 +10,7 @@ public interface IIPODetailService {
     public IPODetail newIPODetail(String companyName, IPODetail ipoDetail);
     public IPODetail getIPODetail(String exchangeName);
     public IPODetail updateIPODetail(String companyName, IPODetail ipoDetail);
+    public List<IPODetail> listUpcoming();
     public void removeIPODetail(String exchangeName);
 
 }

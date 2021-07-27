@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NamedQuery(name = "IPODetail.findByOpenDateTime", query = "SELECT ipo FROM IPODetail ipo WHERE ipo.openDateTime > :from")
 public class IPODetail {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

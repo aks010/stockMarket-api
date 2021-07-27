@@ -12,6 +12,6 @@ public class CompareConfig {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate to;
     public List<CompanyExchange> companyList = new ArrayList<>();
-    public List<Object> sectorList = new ArrayList<>();
+    public List<String> sectorList = new ArrayList<>();
 }
 
