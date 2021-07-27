@@ -5,8 +5,6 @@ import com.stockmarket.company.entity.StockExchange;
 import com.stockmarket.company.exceptions.BadRequestException;
 import com.stockmarket.company.service.StockExchangeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

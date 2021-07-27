@@ -1,8 +1,8 @@
 package com.stockmarket.company.controller;
 
 import com.stockmarket.company.entity.MyUser;
-import com.stockmarket.company.exceptions.BadRequestException;
 import com.stockmarket.company.service.MyUserService;
+import com.stockmarket.company.service.MyUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

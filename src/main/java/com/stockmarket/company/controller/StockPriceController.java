@@ -5,6 +5,7 @@ import com.stockmarket.company.entity.CompareConfig;
 import com.stockmarket.company.entity.StockPrice;
 import com.stockmarket.company.exceptions.BadRequestException;
 import com.stockmarket.company.service.StockPriceService;
+import com.stockmarket.company.service.StockPriceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

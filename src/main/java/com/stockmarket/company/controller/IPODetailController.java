@@ -3,6 +3,7 @@ package com.stockmarket.company.controller;
 import com.stockmarket.company.entity.IPODetail;
 import com.stockmarket.company.exceptions.BadRequestException;
 import com.stockmarket.company.service.IPODetailService;
+import com.stockmarket.company.service.IPODetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

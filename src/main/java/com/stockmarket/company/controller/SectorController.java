@@ -4,6 +4,7 @@ import com.stockmarket.company.entity.Company;
 import com.stockmarket.company.entity.Sector;
 import com.stockmarket.company.exceptions.BadRequestException;
 import com.stockmarket.company.service.SectorService;
+import com.stockmarket.company.service.SectorServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
