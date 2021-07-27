@@ -15,7 +15,7 @@ public class CorsConfiguration
             @Override
             public void addCorsMappings(CorsRegistry registry) {
 //                "http://localhost:3000","http://stoxapp.herokuapp.com/"
-                registry.addMapping("/**").allowedOrigins("http://localhost:3000","http://stoxapp.herokuapp.com/")
+                registry.addMapping("/**").allowedOrigins("http://localhost:3000","http://stoxapp.herokuapp.com/","https://stoxapp.herokuapp.com/")
                         .allowedHeaders("*")
                         .allowedMethods("*");
             }
