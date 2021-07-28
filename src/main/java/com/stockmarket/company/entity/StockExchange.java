@@ -32,7 +32,7 @@ public class StockExchange {
     // CONSTRUCTORS
     public StockExchange() {super();};
 
-    public StockExchange(String exchangeName) {
+    public StockExchange(String exchangeName, String brief, String contactAddress, String remarks) {
         super();
         this.exchangeName = exchangeName;
         this.brief = brief;
