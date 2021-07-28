@@ -73,12 +73,22 @@ public class MyUserServiceImpl implements MyUserService {
             myUser.setConfirmed(userUpdate.getConfirmed());
 
             String updateUserName = userUpdate.getUsername();
-            Optional<MyUser> queryMyUserName = myUserRepository.findByUsername(updateUserName);
-            if(queryMyUserName.isPresent()) {
-                throw new BadRequestException("Requested Username is already in user!");
+            if(!updateUserName.equals(myUser.getUsername())) {
+                Optional<MyUser> queryMyUserName = myUserRepository.findByUsername(updateUserName);
+                if (queryMyUserName.isPresent()) {
+                    throw new BadRequestException("Requested Username is already in use!");
+                }
             }
             myUser.setUsername(userUpdate.getUsername());
             myUser.setMobile(userUpdate.getMobile());
+
+            String updateEmail = userUpdate.getEmail();
+            if(!updateEmail.equals(myUser.getEmail())) {
+                Optional<MyUser> queryMyUserName = myUserRepository.findByEmail(updateEmail);
+                if (queryMyUserName.isPresent()) {
+                    throw new BadRequestException("Requested Email is already in use!");
+                }
+            }
             myUser.setEmail(userUpdate.getEmail());
             myUser.setPassword(userUpdate.getPassword());
             myUser.setRole(userUpdate.getRole());
