@@ -34,8 +34,6 @@ public class IPODetailServiceImpl implements IPODetailService {
     @Override
     public List<IPODetail> listUpcoming() {
         LocalDateTime present = LocalDateTime.now();
-        System.out.println("ASFKNASJKF F AFa HEELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLOOOOO!O!!!O!O!O!O");
-        System.out.println(present);
         return ipoDetailRepository.findByOpenDateTime(present);
     };
 
@@ -145,8 +143,6 @@ public class IPODetailServiceImpl implements IPODetailService {
 
     };
 
-
-    // todo fix in se exchangeName
     @Override
     public IPODetail updateIPODetail(String companyName, IPODetail updateIpoDetail) {
         try {
@@ -164,8 +160,7 @@ public class IPODetailServiceImpl implements IPODetailService {
             ipoDetail.setPricePerShare(updateIpoDetail.getPricePerShare());
             ipoDetail.setTotalNumberOfShares(updateIpoDetail.getTotalNumberOfShares());
 
-            // todo updating ipo company
-            ipoDetailRepository.save(ipoDetail);
+            ipoDetail = ipoDetailRepository.save(ipoDetail);
             company.setIpoDetail(ipoDetail);
             companyRepository.save(company);
             return ipoDetail;

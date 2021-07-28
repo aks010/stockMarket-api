@@ -74,26 +74,6 @@ public class SectorServiceImpl implements SectorService {
 
     }
 
-    // TODO: getSectorPrice Sector ID, From Period, To period, periodicity
-
-//    @Override
-//    public Sector getSector(Long sectorId) {
-//        try {
-//            Optional<Sector> querySector = sectorRepository.findById(sectorId);
-//            if !(querySector.isPresent()()) {
-//                throw new RecordNotFoundException();
-//            }
-//            return querySector.get();
-//        }
-//        catch (RecordNotFoundException e) {
-//            throw e;
-//        }
-//        catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            throw new InternalServerError("Something went wrong!!");
-//        }
-//    }
-
     @Override
     public boolean isSectorNameAvailable(String sectorName) {
         try {

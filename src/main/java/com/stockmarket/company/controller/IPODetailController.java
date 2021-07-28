@@ -57,8 +57,8 @@ public class IPODetailController {
     }
 
     @DeleteMapping("/ipo/{companyName}")
-    public ResponseEntity<HttpStatus> removeIPODetail(@PathVariable String exchangeName) {
-        ipoDetailService.removeIPODetail(exchangeName);
+    public ResponseEntity<HttpStatus> removeIPODetail(@PathVariable String companyName) {
+        ipoDetailService.removeIPODetail(companyName);
         return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
 }

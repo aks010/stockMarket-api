@@ -14,5 +14,4 @@ public interface StockExchangeService {
     public StockExchange updateStockExchange(String exchangeName, StockExchange stockExchange);
     public void removeStockExchange(String exchangeName);
     public List<Company> getCompanyList(String exchangeName);
-
 }

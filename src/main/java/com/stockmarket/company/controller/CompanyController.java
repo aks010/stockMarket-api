@@ -62,51 +62,18 @@ public class CompanyController {
         return new ResponseEntity<Company>(company, null, HttpStatus.OK);
     }
 
-
-
-//    // Check a company name is available for registration - {companyName}
-//    @GetMapping("/company/check/{companyName}")
-//    public ResponseEntity<HttpStatus> isCompanyNameAvailable(@PathVariable String companyName) {
-//        if(companyService.isCompanyNameAvailable(companyName)) {
-//            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-//        }
-//        else {
-//            return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
-//    // Get a company by {companyId}
-//    @GetMapping("/company/{companyId}")
-//    public ResponseEntity<Company> getCompany(@PathVariable Long companyId) {
-//        Company company = companyService.getCompany(companyId);
-//        return new ResponseEntity<Company>(company, null, HttpStatus.OK);
-//    }
-
-    // Update Company - {companyId}
+    // Update Company - {companyName}
     @PutMapping("/company/update/{companyName}")
     public ResponseEntity<Company> updateCompany(@PathVariable String companyName, @Valid @RequestBody Company company, BindingResult bindingResult) {
         Company updatedCompany = companyService.updateCompany(companyName, company);
         return new ResponseEntity<Company>(updatedCompany, null, HttpStatus.OK);
     }
 
-    // Delete Company - {companyId}
-    @DeleteMapping("/company/{companyId}")
-    public ResponseEntity<HttpStatus> removeCompany(@PathVariable Long companyId) {
-        companyService.removeCompany(companyId);
+    // Delete Company - {companyName}
+    @DeleteMapping("/company/{companyName}")
+    public ResponseEntity<HttpStatus> removeCompany(@PathVariable String companyName) {
+        companyService.removeCompany(companyName);
         return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
-
-    // TODO: List StockExchanges with company listed in
-
-////     Create new Company along with exchange & sector
-//    @PostMapping("/company/new/{exchangeName}/{sectorName}")
-//    public ResponseEntity<Company> newCompanyWithSE(@PathVariable String exchangeName, @PathVariable String sectorName, @Valid @RequestBody Company company, BindingResult bindingResult) {
-//            if(bindingResult.hasErrors()) {
-//                throw new BadRequestException("Please submit with valid entries!");
-//            }
-//            System.out.println(bindingResult);
-//            Company newCompany = companyService.newCompanyWithSE(company, exchangeName, sectorName);
-//            return new ResponseEntity<Company>(newCompany, null, HttpStatus.CREATED);
-//    }
 
 }

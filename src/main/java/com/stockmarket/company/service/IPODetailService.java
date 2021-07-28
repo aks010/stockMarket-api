@@ -11,6 +11,6 @@ public interface IPODetailService {
     public IPODetail getIPODetail(String exchangeName);
     public IPODetail updateIPODetail(String companyName, IPODetail ipoDetail);
     public List<IPODetail> listUpcoming();
-    public void removeIPODetail(String exchangeName);
+    public void removeIPODetail(String companyName);
 
 }

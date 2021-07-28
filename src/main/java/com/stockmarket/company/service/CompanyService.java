@@ -10,13 +10,10 @@ import java.util.List;
 public interface CompanyService {
     public List<Company> listCompanies();
     public List<Company> listCompaniesByPattern(String startsWith);
-//    public Company newCompanyWithSE(Company company, String exchangeName, String sectorName);
     public Company newCompany(Company company, String sectorName);
-//    public boolean isCompanyNameAvailable(String companyName);
-//    public Company getCompany(Long companyId);
     public Company getCompanyByName(String companyName);
     public CompanyStockExchangeMap mapCompanyExchange(String companyName, String exchangeName, CompanyStockExchangeMap compSeMap);
     public Company updateCompany(String companyName, Company company);
-    public void removeCompany(Long stockId);
+    public void removeCompany(String companyName);
 
 }

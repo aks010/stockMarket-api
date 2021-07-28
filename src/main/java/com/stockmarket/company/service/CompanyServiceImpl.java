@@ -322,22 +322,21 @@ public class CompanyServiceImpl implements CompanyService {
             throw e;
         }
         catch (Exception e) {
+
             System.out.println(e.getMessage());
+            e.printStackTrace();
             throw new InternalServerError("Something went wrong!!");
         }
     }
 
-
-
-
     @Override
-    public void removeCompany(Long companyId) {
+    public void removeCompany(String companyName) {
         try {
-            Optional<Company> queryCompany = companyRepository.findById(companyId);
+            Optional<Company> queryCompany = companyRepository.findByName(companyName);
             if (!queryCompany.isPresent()) {
                 throw new RecordNotFoundException();
             }
-            companyRepository.deleteById(companyId);
+            companyRepository.deleteById(queryCompany.get().getId());
         }
         catch (RecordNotFoundException e) {
             throw e;

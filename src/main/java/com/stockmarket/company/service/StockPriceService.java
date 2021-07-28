@@ -10,12 +10,7 @@ import java.util.List;
 public interface StockPriceService {
     public List<StockPrice> listStockPrices();
     public List<Object> compareCompanies(CompareConfig companyList);
-    public List<Company> listStockPriceCompanies( String sectorName);
-    public StockPrice newStockPrice(StockPrice company, String companyName);
     public HashMap<String, Object> uploadExcel(List<StockPrice> stockPriceList);
-    public StockPrice getStockPrice(Long sectorId);
-    public StockPrice getStockPriceByName(String sectorName);
-    public StockPrice updateStockPrice(Long sectorId, StockPrice sector);
+    public StockPrice getStockPrice(Long stockId);
     public void removeStockPrice(Long stockId);
-//    public List<StockPrice> companyCompare(CompanyCompareList companyList);
 }

@@ -49,18 +49,18 @@ public class MyUserController {
 //        return new ResponseEntity<MyUser>(newMyUser, null, HttpStatus.CREATED);
 //    }
 
-    // Get a user by {userId}
-    @GetMapping("/users/{userId}")
-    public ResponseEntity<MyUser> getUser1(@PathVariable Long userId) {
+    // Get a user by {username}
+    @GetMapping("/users/{username}")
+    public ResponseEntity<MyUser> getUser1(@PathVariable String username) {
 
-        MyUser myUser = myUserService.getUser(userId);
+        MyUser myUser = myUserService.getUser(username);
         return new ResponseEntity<MyUser>(myUser, null, HttpStatus.OK);
     }
 
     // Update User - {userId}
-    @PutMapping("/users/update/{userId}")
-    public ResponseEntity<MyUser> updateUser1(@PathVariable Long userId, @Valid @RequestBody MyUser myUser, BindingResult bindingResult) {
-        MyUser updatedMyUser = myUserService.updateUser(userId, myUser);
+    @PutMapping("/users/update/{username}")
+    public ResponseEntity<MyUser> updateUser1(@PathVariable String username, @Valid @RequestBody MyUser myUser, BindingResult bindingResult) {
+        MyUser updatedMyUser = myUserService.updateUser(username, myUser);
         return new ResponseEntity<MyUser>(updatedMyUser, null, HttpStatus.OK);
     }
 
@@ -71,7 +71,7 @@ public class MyUserController {
         return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
 
-    // Confirm User with id - {userId}
+    // Confirm User
     @GetMapping(value="/confirmuser/{username}")
     public ResponseEntity<String> confirmUser(@PathVariable String username) {
         String response = myUserService.confirmUser(username);

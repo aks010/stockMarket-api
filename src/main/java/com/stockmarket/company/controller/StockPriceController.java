@@ -32,22 +32,6 @@ public class StockPriceController {
         return stockPriceService.compareCompanies(compare);
     }
 
-    @GetMapping("/stockPrices/companies/{stockPriceName}")
-    public List<Company> listStockPriceCompanies(@PathVariable String stockPriceName) {
-        return stockPriceService.listStockPriceCompanies( stockPriceName);
-    }
-
-    // Create new StockPrice without SE
-    @PostMapping("/stockPrices/new/{companyName}")
-    public ResponseEntity<StockPrice> newStockPrice(@PathVariable String companyName, @Valid @RequestBody StockPrice stockPrice, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            throw new BadRequestException("Please submit with valid entries!");
-        }
-        System.out.println(bindingResult);
-        StockPrice newStockPrice = stockPriceService.newStockPrice(stockPrice, companyName);
-        return new ResponseEntity<StockPrice>(newStockPrice, null, HttpStatus.CREATED);
-    }
-
     // upload Stock Price Excel
     @PostMapping("/stockPrices/uploadExcel")
     public ResponseEntity<HashMap<String, Object>> newStockPrice(@Valid @RequestBody List<StockPrice> stockPriceList, BindingResult bindingResult) {
@@ -64,13 +48,6 @@ public class StockPriceController {
     public ResponseEntity<StockPrice> getStockPrice(@PathVariable Long stockPriceId) {
         StockPrice stockPrice = stockPriceService.getStockPrice(stockPriceId);
         return new ResponseEntity<StockPrice>(stockPrice, null, HttpStatus.OK);
-    }
-
-    // Update StockPrice - {stockPriceId}
-    @PutMapping("/stockPrices/update/{stockPriceId}")
-    public ResponseEntity<StockPrice> updateStockPrice(@PathVariable Long stockPriceId, @Valid @RequestBody StockPrice stockPrice, BindingResult bindingResult) {
-        StockPrice updatedStockPrice = stockPriceService.updateStockPrice(stockPriceId, stockPrice);
-        return new ResponseEntity<StockPrice>(updatedStockPrice, null, HttpStatus.OK);
     }
 
     // Delete StockPrice - {stockPriceId}
