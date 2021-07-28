@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
@@ -19,6 +20,9 @@ public class CompanyApplication implements CommandLineRunner {
 
 	@Autowired
 	CompanyRepository companyRepository;
+
+	@Autowired
+	private PasswordEncoder bcryptEncoder;
 
 	@Autowired
 	StockExchangeRepository stockExchangeRepository;
@@ -47,8 +51,9 @@ public class CompanyApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		System.out.println("Hello there! Lets Cool it up!!!");
 
+//		String password =
 		MyUser myUser = new MyUser("admin",
-				"admin",
+				bcryptEncoder.encode("admin"),
 				"admin@gmail.com",
 				"admin",
 				"7894567894", true, true);
