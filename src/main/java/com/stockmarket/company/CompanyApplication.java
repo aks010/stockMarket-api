@@ -50,6 +50,7 @@ public class CompanyApplication implements CommandLineRunner {
 		MyUser myUser = new MyUser("admin",
 				"admin",
 				"admin@gmail.com",
+				"admin",
 				"7894567894", true, true);
 		myUserRepository.save(myUser);
 

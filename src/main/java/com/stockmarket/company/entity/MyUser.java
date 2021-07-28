@@ -40,14 +40,16 @@ public class MyUser {
         super();
     }
 
-    public MyUser(String username, String password, String email, String mobile, Boolean confirmed, Boolean admin) {
+    public MyUser(String username, String password, String email, String role, String mobile, Boolean confirmed, Boolean admin) {
         super();
         this.username = username;
         this.password = password;
         this.email = email;
         this.mobile = mobile;
+        this.role = role;
         this.confirmed = confirmed;
         this.admin = admin;
+
     }
 
     // GETTERS AND SETTERS
