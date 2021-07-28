@@ -21,8 +21,8 @@ public class CompanyApplication implements CommandLineRunner {
 	@Autowired
 	CompanyRepository companyRepository;
 
-	@Autowired
-	private PasswordEncoder bcryptEncoder;
+//	@Autowired
+//	private PasswordEncoder bcryptEncoder;
 
 	@Autowired
 	StockExchangeRepository stockExchangeRepository;
@@ -52,12 +52,12 @@ public class CompanyApplication implements CommandLineRunner {
 		System.out.println("Hello there! Lets Cool it up!!!");
 
 //		String password =
-		MyUser myUser = new MyUser("admin",
-				bcryptEncoder.encode("admin"),
-				"admin@gmail.com",
-				"admin",
-				"7894567894", true, true);
-		myUserRepository.save(myUser);
+//		MyUser myUser = new MyUser("admin",
+//				bcryptEncoder.encode("admin"),
+//				"admin@gmail.com",
+//				"admin",
+//				"7894567894", true, true);
+//		myUserRepository.save(myUser);
 
 		Sector sector = new Sector("Health", "brief of sector Health");
 		sectorRepository.save(sector);
