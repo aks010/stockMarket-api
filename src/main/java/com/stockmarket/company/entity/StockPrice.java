@@ -12,7 +12,6 @@ import java.util.Date;
 
 @Entity
 @Table(name="StockPrice")
-//@NamedQuery(name = "StockPrice.findByDatee", query = "SELECT c FROM StockPrice c WHERE c.datee BETWEEN :from AND :to ")
 @NamedQuery(name = "StockPrice.findByDatee", query = "SELECT sp.datee,c.companyName,  SUM(sp.sharePrice) FROM StockPrice sp JOIN sp.company c WHERE sp.datee BETWEEN :from AND :to AND c.companyName= :companyName AND sp.exchangeName = :exchangeName GROUP BY sp.datee")
 @NamedQuery(name="StockPrice.findByDateeSector", query="" +
 //        "SELECT sp.datee, AVG(sp.price) FROM"+
@@ -49,8 +48,6 @@ public class StockPrice {
         this.exchangeName = exchangeName;
         this.companyCode = companyCode;
         this.datee = datee;
-        //TODO
-//        this.timee = timee;
         this.sharePrice = sharePrice;
     }
 

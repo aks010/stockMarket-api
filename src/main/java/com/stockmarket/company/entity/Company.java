@@ -12,7 +12,6 @@ import java.util.List;
 @Table(name = "Company")
 @NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company c WHERE c.companyName = :companyName")
 @NamedQuery(name = "Company.findByNameStartWith", query = "SELECT c FROM Company c WHERE c.companyName LIKE CONCAT(:startsWith,'%')")
-//@NamedQuery(name = "Company.findBySector", query = "SELECT c FROM Company c JOIN c.sector s WHERE  s.id = :sectorId")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Company {
 
@@ -44,8 +43,6 @@ public class Company {
     @JsonIgnore
     private List<StockPrice> stockPrices = new ArrayList<>();
 
-
-    // TODO : DOUBT: When a sector is removed the corresponding company rows also gets removed
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="sector_id")
     private Sector sector;

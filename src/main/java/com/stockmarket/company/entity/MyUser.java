@@ -29,11 +29,6 @@ public class MyUser {
 
     private Boolean admin;
 
-    // TODO: enumerate role
-//    public enum Role {
-//        ADMIN, MYUSER;
-//    }
-
     // CONSTRUCTOR
 
     public MyUser() {

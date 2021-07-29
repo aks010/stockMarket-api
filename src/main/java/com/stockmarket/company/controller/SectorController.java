@@ -49,13 +49,6 @@ public class SectorController {
         return new ResponseEntity<Sector>(sector, null, HttpStatus.OK);
     }
 
-//    // Get a sector by {sectorId}
-//    @GetMapping("/sectors/{sectorId}")
-//    public ResponseEntity<Sector> getSector(@PathVariable Long sectorId) {
-//        Sector sector = sectorService.getSector(sectorId);
-//        return new ResponseEntity<Sector>(sector, null, HttpStatus.OK);
-//    }
-
     // Check a sector name is available for registration - {sectorName}
     @GetMapping("/sectors/check/{sectorName}")
     public ResponseEntity<HttpStatus> isSectorNameAvailable(@PathVariable String sectorName) {

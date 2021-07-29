@@ -32,24 +32,7 @@ public class GlobalExceptionController {
         errorResponse.setStatus(ex.getErrCode());
         return new ResponseEntity<ExceptionJSONInfo>(errorResponse, errorResponse.getStatus());
     }
-//
-//    @ExceptionHandler(value = { InvalidInputException.class })
-//    public ResponseEntity<Object> handleInvalidInputException(InvalidInputException ex) {
-//        logger.error("Invalid Input Exception: ",ex.getMessage());
-//        return new ResponseEntity<Object>(ex.getMessage(),HttpStatus.BAD_REQUEST);
-//    }
-//
-//    @ExceptionHandler(value = { Unauthorized.class })
-//    public ResponseEntity<Object> handleUnauthorizedException(Unauthorized ex) {
-//        logger.error("Unauthorized Exception: ",ex.getMessage());
-//        return new ResponseEntity<Object>(ex.getMessage(),HttpStatus.BAD_REQUEST);
-//    }
-//
-//    @ExceptionHandler(value = { BusinessException.class })
-//    public ResponseEntity<Object> handleBusinessException(BusinessException ex) {
-//        logger.error("Business Exception: ",ex.getMessage());
-//        return new ResponseEntity<Object>(ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+
     @ExceptionHandler(value = { InternalServerError.class })
     public ResponseEntity<ExceptionJSONInfo> handleInternalServerError(InternalServerError ex) {
         logger.error(ex.getErrMsg());
@@ -59,13 +42,9 @@ public class GlobalExceptionController {
         return new ResponseEntity<ExceptionJSONInfo>(errorResponse, errorResponse.getStatus());
     }
 
-
     @ExceptionHandler(value = { Exception.class })
     public ResponseEntity<ExceptionJSONInfo> handleException(Exception ex) {
         ex.printStackTrace();
-        System.out.println("GETTTITJNG ITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT!!!!");
-        System.out.println(ex.getLocalizedMessage());
-        System.out.println("GETTTITJNG SOmetijgnh hjkjdfng !!!!");
         System.out.println(ex.getMessage());
 
         logger.error("Exception: ",ex.getMessage());
@@ -74,5 +53,4 @@ public class GlobalExceptionController {
         errorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<ExceptionJSONInfo>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }

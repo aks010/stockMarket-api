@@ -57,17 +57,4 @@ public class StockPriceController {
         return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
 
-
-
-//    // COMPARE
-//    @PostMapping("/stockPrices/compare/company")
-//    public ResponseEntity<StockPrice> compareCompany(@Valid @RequestBody CompanyCompareList, BindingResult bindingResult) {
-//        if(bindingResult.hasErrors()) {
-//            throw new BadRequestException("Please submit with valid entries!");
-//        }
-//        System.out.println(bindingResult);
-//        StockPrice newStockPrice = stockPriceService.compareCompany(CompanyCompareList);
-//        return new ResponseEntity<StockPrice>(newStockPrice, null, HttpStatus.CREATED);
-//        return null;
-//    }
 }

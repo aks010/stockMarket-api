@@ -19,8 +19,6 @@ public class StockExchangeController {
     @Autowired
     private StockExchangeService stockExchangeService;
 
-    // todo: list of companies in a stock exchange
-
     // ADMIN: List Existing Stock Exchanges
     @GetMapping("/stockExchange/list")
     public List<StockExchange> listStockExchanges() {
@@ -39,13 +37,11 @@ public class StockExchangeController {
                 throw new BadRequestException("Please submit with valid entries!");
             }
 
-            System.out.println(bindingResult);
-            System.out.println("Reached Here!!!");
             StockExchange newStockExchange = stockExchangeService.newStockExchange(stockExchange);
             return new ResponseEntity<StockExchange>(newStockExchange, null, HttpStatus.CREATED);
     }
 
-    // ADMIN: Get a Stock Exchange by ID
+    // ADMIN: Get a Stock Exchange by exchangeName
     @GetMapping("/stockExchange/{exchangeName}")
     public ResponseEntity<StockExchange> getStockExchange(@PathVariable String exchangeName) {
         StockExchange stockExchange = stockExchangeService.getStockExchange(exchangeName);

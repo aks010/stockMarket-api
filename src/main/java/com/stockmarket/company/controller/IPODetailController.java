@@ -19,8 +19,6 @@ public class IPODetailController {
     @Autowired
     private IPODetailService ipoDetailService;
 
-    // todo: list of companies in a stock exchange
-
     @GetMapping("/ipo/list")
     public List<IPODetail> listIPODetails() {
         return ipoDetailService.listIPODetails();
