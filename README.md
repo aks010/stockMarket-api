@@ -5,6 +5,8 @@
  <p align="center">
 A platform to create, manage and analyze stocks, sectors, stock exhanges and ipos.</p>
 </p>
+
+
 ## What is it?
 
 This is the backend service for the [Stock Market Charting - React].
