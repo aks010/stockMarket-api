@@ -1,7 +1,10 @@
+<p align="center">
 
-# STOCK-MARKET-CHARTING API
-
-
+ <img width="100px" src="src/main/resources/static/images/logo-tab.png" align="center" alt="stox app logo" />
+ <h2 align="center">Stoxapp</h2>
+ <p align="center">
+A platform to create, manage and analyze stocks, sectors, stock exhanges and ipos.</p>
+</p>
 ## What is it?
 
 This is the backend service for the [Stock Market Charting - React].
